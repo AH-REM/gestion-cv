@@ -98,7 +98,7 @@ class Niveau
         return $this;
     }
 
-    public function getDisplayName()
+    public function getName()
     {
         return $this->num . ' - ' . $this->libelle;
     }

@@ -21,60 +21,30 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use Symfony\Component\Validator\Constraints\File;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 class IntervenantType extends AbstractType
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        function emploiOptions($type = null) {
-            $array = [
-                'label' => 'Type Emploi',
-                'placeholder' => 'Choisissez un emploi',
-                'attr' => ['class' => 'select2-control-emploi'],
-                //'multiple' => true,
-                'required' => true
-            ];
-            if ($type) $array['data'] = $type;
-            return $array;
-        }
-
-        function diplomeOptions($libelle = null) {
-            $array = [
-                'label' => 'Diplome',
-                'placeholder' => 'Choisissez un diplome',
-                'choice_attr' => function(Diplome $diplome) {
-                    return $diplome ? [ 'niveau' => $diplome->getNiveau()->getNum() ] : [ 'niveau' => '' ];
-                },
-                'attr' => [ 'class' => 'select2-control-diplome' ],
-                'required' => true
-            ];
-            if ($libelle) $array['data'] = $libelle;
-            return $array;
-        }
-
-        function domainesOptions(Domaine $domaine = null) {
-            $array = [
-                'label' => 'Domaines',
-                'placeholder' => 'Choisissez un domaine',
-                'class' => Domaine::class,
-                'choice_label' => 'libelle',
-                'multiple' => true,
-                'attr' => [ 'class' => 'select2-control-domaines' ],
-                'required' => true
-            ];
-            if ($domaine) $array['data'] = $domaine;
-            return $array;
-        }
-
         $builder
-            ->add('nom', null, [
+            ->add('nom', TextType::class, [
                 'attr' => [ 'autocomplete' => 'off' ]
             ])
-            ->add('prenom', null, [
+            ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => [ 'autocomplete' => 'off' ]
             ])
@@ -83,7 +53,7 @@ class IntervenantType extends AbstractType
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true
             ])
-            ->add('adresse', null, [
+            ->add('adresse', TextType::class, [
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false
             ])
@@ -102,56 +72,63 @@ class IntervenantType extends AbstractType
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false
             ])
-            ->add('emploi', null, emploiOptions())
+            ->add('emploi', EntityType::class, [
+                'class' => TypeEmploi::class,
+                'label' => 'Emploi',
+                'placeholder' => 'Choisissez un emploi',
+                'attr' => ['class' => 'select2-control-emploi'],
+                'required' => true
+            ])
             ->add('niveau', EntityType::class, [
+                'class' => Niveau::class,
                 'label' => 'Niveau du diplome',
                 'placeholder' => 'Choisissez un niveau',
-                'class' => Niveau::class,
                 'choice_attr' => function(Niveau $niveau) {
-                    return $niveau ? [ 'niveau' => $niveau->getNum() ] : [ 'niveau' => '' ];
+                    return $niveau ? [ 'niveau' => $niveau->getNum() ] : [];
                 },
-                'choice_label' => function ($niveau) {
-                    return $niveau->getDisplayName();
-                },
+                'choice_label' => 'name',
                 'required' => true
             ])
-            ->add('diplome', null, diplomeOptions())
-            //->add('domaines', EntityType::class, domainesOptions())
-            ->add('file', FileType::class, [
-                'label' => 'CV',
-                'attr' => [
-                    'class' => 'intervenant_file_input',
-                    'placeholder' => 'Choisissez un fichier PDF'
-                ],
-                'mapped' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
-                ],
+            ->add('diplome', EntityType::class, [
+                'class' => Diplome::class,
+                'label' => 'Diplome',
+                'placeholder' => 'Choisissez un diplome',
+                'choice_attr' => function(Diplome $diplome) {
+                    return $diplome ? [ 'niveau' => $diplome->getNiveau()->getNum() ] : [];
+                },
+                'attr' => [ 'class' => 'select2-control-diplome' ],
                 'required' => true
             ])
-            /*->add('divers', null, [
-                'required' => false
-            ])*/
         ;
 
-        $modifierEmploi = function (FormInterface $form, String $type = null) {
-            $form->add('emploi', null, emploiOptions($type));
+        $modifierEmploi = function (FormInterface $form, ?TypeEmploi $emploi = null) {
+
+            $form->add('emploi', EntityType::class, [
+                'class' => TypeEmploi::class,
+                'label' => 'Emploi',
+                'placeholder' => 'Choisissez un emploi',
+                'data' => $emploi,
+                'attr' => ['class' => 'select2-control-emploi'],
+                'required' => true
+            ]);
+
         };
 
-        $modifierDiplome = function (FormInterface $form, String $libelle = null) {
-            $form->add('diplome', null, diplomeOptions($libelle));
-        };
+        $modifierDiplome = function (FormInterface $form, ?Diplome $diplome = null) {
 
-        /*$modifierDomaines= function (FormInterface $form, Domaine $domaine = null) {
-            $form->add('domaines', EntityType::class, diplomeOptions($domaine));
-        };*/
+            $form->add('diplome', EntityType::class, [
+                'class' => Diplome::class,
+                'label' => 'Diplome',
+                'placeholder' => 'Choisissez un diplome',
+                'choice_attr' => function(Diplome $diplome) {
+                    return $diplome ? [ 'niveau' => $diplome->getNiveau()->getNum() ] : [];
+                },
+                'data' => $diplome,
+                'attr' => ['class' => 'select2-control-diplome'],
+                'required' => true
+            ]);
+
+        };
 
         $builder->get('emploi')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierEmploi) {
 
@@ -160,9 +137,12 @@ class IntervenantType extends AbstractType
             if (!$emploi) {
                 $emploi = new TypeEmploi();
                 $emploi->setLibelle($event->getData());
+
+                $this->entityManager->persist($emploi);
+                $this->entityManager->flush();
             }
 
-            $modifierEmploi($event->getForm()->getParent(), $emploi->getLibelle());
+            $modifierEmploi($event->getForm()->getParent(), $emploi);
             $event->getForm()->getParent()->getData()->setEmploi($emploi);
 
         });
@@ -184,17 +164,15 @@ class IntervenantType extends AbstractType
             $niveau = $event->getForm()->getParent()->getData()->getNiveau();
             $diplome->setNiveau($niveau);
 
-            $modifierDiplome($event->getForm()->getParent(), $diplome->getLibelle());
+            if ($event->getData() != $diplome->getNiveau()->getId()) {
+                $this->entityManager->persist($diplome);
+                $this->entityManager->flush();
+            }
+
+            $modifierDiplome($event->getForm()->getParent(), $diplome);
             $event->getForm()->getParent()->getData()->setDiplome($diplome);
 
         });
-
-        /*$builder->get('domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierDomaines) {
-
-            $domaines = $event->getForm()->getData();
-            dump($domaines); die();
-
-        });*/
 
     }
 

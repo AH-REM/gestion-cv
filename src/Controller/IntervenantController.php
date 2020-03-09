@@ -61,7 +61,7 @@ class IntervenantController extends AbstractController
 
             $intervenant = $form->getData();
 
-            $file = $form->get('file')->getData();
+            /*$file = $form->get('file')->getData();
 
             if ($file) {
 
@@ -74,7 +74,7 @@ class IntervenantController extends AbstractController
 
                 //$product->setBrochureFilename($brochureFileName);
 
-            }
+            }*/
 
             $emploi = $intervenant->getEmploi();
 
@@ -85,11 +85,10 @@ class IntervenantController extends AbstractController
             $manager->persist($intervenant);
             $manager->flush();
 
-            return $this->redirectToRoute('list_intervenant');
+            //return $this->redirectToRoute('list_intervenant');
         }
 
         return $this->render('intervenant/form.html.twig', [
-
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);

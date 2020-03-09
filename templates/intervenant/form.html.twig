@@ -110,7 +110,7 @@
 
         </div>
 
-        <div class="form-row">
+        {# <div class="form-row">
 
             <div class="form-group col-md">
 
@@ -118,7 +118,7 @@
 
             </div>
 
-        </div>
+        </div> #}
 
 
 		<button class="btn btn-primary" type="submit">Enregistrer</button>
@@ -133,7 +133,8 @@
             $("#intervenant_niveau option[value='']").prop("disabled", true);
 
             function update_niveau(niveau) {
-                $('#intervenant_niveau').val(niveau).change();
+                var val = $("#intervenant_niveau option[niveau="+niveau+"]");
+                if (val) $('#intervenant_niveau').val(val.val()).change();
             }
 
             $(".select2-control-emploi").select2({

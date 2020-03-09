@@ -24,7 +24,7 @@ class Diplome
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Niveau", inversedBy="diplomes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Niveau", inversedBy="diplomes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $niveau;

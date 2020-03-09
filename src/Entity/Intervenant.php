@@ -74,20 +74,20 @@ class Intervenant
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Domaine", inversedBy="intervenants", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Domaine", inversedBy="intervenants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $domaines;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Diplome", inversedBy="intervenants", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Diplome", inversedBy="intervenants")
      */
     private $diplome;
 
     private $niveau;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEmploi", inversedBy="intervenants", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEmploi", inversedBy="intervenants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $emploi;
