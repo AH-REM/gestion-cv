@@ -19,9 +19,9 @@ class FileUploader
 
     public function upload(UploadedFile $file, Intervenant $intervenant)
     {
-        $name = $intervenant->getNom() . '_' . $intervenant->getPrenom() . '_' . $intervenant->getId();
+        $name = $intervenant->getNom() . '_' . $intervenant->getPrenom();
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $name);
-        $fileName = $safeFilename . '.' . $file->guessExtension();
+        $fileName = $safeFilename . '_' . uniqid() . '.' . $file->guessExtension();
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);

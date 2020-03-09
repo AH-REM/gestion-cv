@@ -39,6 +39,7 @@ class IntervenantType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $fileName = $options['file_name'];
 
         $builder
             ->add('nom', TextType::class, [
@@ -98,6 +99,21 @@ class IntervenantType extends AbstractType
                 },
                 'attr' => [ 'class' => 'select2-control-diplome' ],
                 'required' => true
+            ])
+            ->add('file', FileType::class, [
+                'label' => 'CV',
+                'mapped' => false,
+                'attr' => [ 'placeholder' => ( $fileName ? $fileName : 'Choisissez un document PDF' ) ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
+                'required' => ( $fileName ? false : true ),
             ])
         ;
 
@@ -181,5 +197,7 @@ class IntervenantType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Intervenant::class,
         ]);
+
+        $resolver->setRequired('file_name');
     }
 }

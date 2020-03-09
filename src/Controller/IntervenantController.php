@@ -53,7 +53,9 @@ class IntervenantController extends AbstractController
         // On set le niveau
         else $intervenant->setNiveau($intervenant->getDiplome()->getNiveau());
 
-        $form = $this->createForm(IntervenantType::class, $intervenant);
+        $form = $this->createForm(IntervenantType::class, $intervenant, [
+            'file_name' => $intervenant->getNameCv(),
+        ]);
 
         $form->handleRequest($request);
 
@@ -61,20 +63,24 @@ class IntervenantController extends AbstractController
 
             $intervenant = $form->getData();
 
-            /*$file = $form->get('file')->getData();
+            $file = $form->get('file')->getData();
 
             if ($file) {
 
                 $fileName = $fileUploader->upload($file, $intervenant);
 
-                dump($fileName); die();
+                // Si lors de l'upload il y a eu une erreur
+                if (!$fileName) {
 
-                // faudrait test si il y a un nom
-                // et return une erreur si le fichier n'as pas été crée
+                    // Erreur ?
+                    
+                    return $this->redirectToRoute('edit_intervenant', [ 'id' => $intervenant->getId() ]);
+                }
 
-                //$product->setBrochureFilename($brochureFileName);
+                $intervenant->setNameCv($fileName)
+                            ->setDateMajCv(new \DateTime());
 
-            }*/
+            }
 
             $emploi = $intervenant->getEmploi();
 
@@ -85,7 +91,7 @@ class IntervenantController extends AbstractController
             $manager->persist($intervenant);
             $manager->flush();
 
-            //return $this->redirectToRoute('list_intervenant');
+            return $this->redirectToRoute('list_intervenant');
         }
 
         return $this->render('intervenant/form.html.twig', [
