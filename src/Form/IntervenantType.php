@@ -107,6 +107,9 @@ class IntervenantType extends AbstractType
                 'label' => 'Niveau du diplome',
                 'placeholder' => 'Choisissez un niveau',
                 'class' => Niveau::class,
+                'choice_attr' => function(Niveau $niveau) {
+                    return $niveau ? [ 'niveau' => $niveau->getNum() ] : [ 'niveau' => '' ];
+                },
                 'choice_label' => function ($niveau) {
                     return $niveau->getDisplayName();
                 },
