@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormError;
 
 use App\Service\FileUploader;
 
@@ -64,6 +65,7 @@ class IntervenantController extends AbstractController
             $intervenant = $form->getData();
 
             $file = $form->get('file')->getData();
+            $err = false;
 
             if ($file) {
 
@@ -72,26 +74,34 @@ class IntervenantController extends AbstractController
                 // Si lors de l'upload il y a eu une erreur
                 if (!$fileName) {
 
-                    // Erreur ?
-                    
-                    return $this->redirectToRoute('edit_intervenant', [ 'id' => $intervenant->getId() ]);
+                    $err = true;
+                    $form->get('file')->addError(new FormError('Une erreur s\'est produite lors de l\'envoie du fichier PDF. Veuillez recommencer ultérieurement.'));
+
+                }
+                else {
+
+                    $intervenant->setNameCv($fileName)
+                                ->setDateMajCv(new \DateTime());
+
                 }
 
-                $intervenant->setNameCv($fileName)
-                            ->setDateMajCv(new \DateTime());
+            }
+
+            if (!$err) {
+
+                $emploi = $intervenant->getEmploi();
+
+                if (!$intervenant->getCreatedAt()) {
+                    $intervenant->setCreatedAt(new \DateTime());
+                }
+
+                $manager->persist($intervenant);
+                $manager->flush();
+
+                return $this->redirectToRoute('list_intervenant');
 
             }
 
-            $emploi = $intervenant->getEmploi();
-
-            if (!$intervenant->getCreatedAt()) {
-                $intervenant->setCreatedAt(new \DateTime());
-            }
-
-            $manager->persist($intervenant);
-            $manager->flush();
-
-            return $this->redirectToRoute('list_intervenant');
         }
 
         return $this->render('intervenant/form.html.twig', [
