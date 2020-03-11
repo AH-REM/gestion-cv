@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ intervenant.nom }} {{ intervenant.prenom }}</h1>
+
+    <a class="btn btn-secondary"
+       href="{{ asset('cv/') }}"
+       role="button">
+       Afficher CV
+    </a>
+
+{% endblock %}

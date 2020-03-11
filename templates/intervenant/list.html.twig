@@ -12,6 +12,7 @@
                 <th scope="col">Nom</th>
                 <th scope="col">Prenom</th>
                 <th scope="col">mail</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -24,11 +25,19 @@
                     <td>{{ intervenant.nom }}</td>
                     <td>{{ intervenant.mail }}</td>
                     <td>
+
+                        <a class="btn btn-info"
+                           href="{{ path('show_intervenant', { id: intervenant.id }) }}"
+                           role="button">
+                           Afficher
+                        </a>
+
                         <a class="btn btn-secondary"
                            href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
                            role="button">
                            Modifier
-                       </a>
+                        </a>
+
                     </td>
 
                 </tr>

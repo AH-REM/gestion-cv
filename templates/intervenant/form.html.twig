@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-form.css') }}" />
+
+{% endblock %}
+
 {% block body %}
 
     <h1>Formulaire ?</h1>
@@ -114,60 +122,32 @@
 
             <div class="form-group col-md">
 
+                {{ form_row(form.domaines) }}
+
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md">
+
                 {{ form_row(form.file) }}
 
             </div>
 
         </div>
 
-
 		<button class="btn btn-primary" type="submit">Enregistrer</button>
 
 	{{ form_end(form) }}
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script>
-        $( document ).ready(function() {
+{% endblock %}
 
-            $("#intervenant_niveau option[value='']").prop("disabled", true);
+{% block js %}
 
-            function update_niveau(niveau) {
-                var val = $("#intervenant_niveau option[niveau="+niveau+"]");
-                if (val) $('#intervenant_niveau').val(val.val()).change();
-            }
-
-            $(".select2-control-emploi").select2({
-                placeholder: "Choisissez un emploi",
-                //maximumSelectionLength: 1,
-                theme: 'bootstrap4',
-                tags: true
-            });
-
-            $(".select2-control-diplome").select2({
-                placeholder: "Choisissez un diplome",
-                theme: 'bootstrap4',
-                tags: true
-            });
-
-            $('.select2-control-diplome').on('change', function(e) {
-                var niveau = $('option:selected', this).attr('niveau');
-                update_niveau(niveau ? niveau : null);
-            });
-
-            $(".select2-control-domaines").select2({
-                placeholder: "Choisissez un domaine",
-                theme: 'bootstrap4',
-                tags: true
-            });
-
-            $('#intervenant_file').on('change', function(e) {
-                var filename = $(this).val().replace(/.*(\/|\\)/, '');
-                $(".custom-file label[for='intervenant_file']").text(filename);
-            });
-
-        });
-
-    </script>
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/intervenant-form.js') }}"></script>
 
 {% endblock %}
