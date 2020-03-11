@@ -33,7 +33,20 @@ class IntervenantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit_intervenant")
+     * @Route("/show/{id}", name="show_intervenant")
+     */
+    public function show(Intervenant $intervenant = null)
+    {
+        if (!$intervenant) return $this->redirectToRoute('list_intervenant');
+
+        return $this->render('intervenant/show.html.twig', [
+            'intervenant' => $intervenant
+        ]);
+    }
+
+
+    /**
+     * @Route("/edit/{id}", name="edit_intervenant")
      * @Route("/new", name="new_intervenant")
      */
     public function form(Intervenant $intervenant = null, Request $request, EntityManagerInterface $manager, FileUploader $fileUploader)
@@ -98,7 +111,7 @@ class IntervenantController extends AbstractController
                 $manager->persist($intervenant);
                 $manager->flush();
 
-                return $this->redirectToRoute('list_intervenant');
+                // return $this->redirectToRoute('list_intervenant');
 
             }
 
