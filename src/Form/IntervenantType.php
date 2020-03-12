@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use Symfony\Component\Validator\Constraints\File;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 class IntervenantType extends AbstractType
@@ -39,6 +40,7 @@ class IntervenantType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $fileName = $options['file_name'];
 
         $builder
@@ -100,6 +102,17 @@ class IntervenantType extends AbstractType
                 'attr' => [ 'class' => 'select2-control-diplome' ],
                 'required' => true
             ])
+            ->add('domaines', EntityType::class, [
+                'class' => Domaine::class,
+                'label' => 'Domaines',
+                'placeholder' => 'Choisissez un ou plusieurs dommaines',
+                'choice_value' => function (?Domaine $domaine) {
+                    return $domaine ? $domaine->getLibelle() : '';
+                },
+                'attr' => [ 'class' => 'select2-control-domaines' ],
+                'multiple' => true,
+                'required' => true
+            ])
             ->add('file', FileType::class, [
                 'label' => 'CV',
                 'mapped' => false,
@@ -114,6 +127,7 @@ class IntervenantType extends AbstractType
                     ])
                 ],
                 'required' => ( $fileName ? false : true ),
+                'required' => false
             ])
         ;
 
@@ -141,6 +155,22 @@ class IntervenantType extends AbstractType
                 },
                 'data' => $diplome,
                 'attr' => ['class' => 'select2-control-diplome'],
+                'required' => true
+            ]);
+
+        };
+
+        $modifierDomaines = function (FormInterface $form) {
+
+            $form->add('domaines', EntityType::class, [
+                'class' => Domaine::class,
+                'label' => 'Domaines',
+                'placeholder' => 'Choisissez un ou plusieurs dommaines',
+                'choice_value' => function (?Domaine $domaine) {
+                    return $domaine ? $domaine->getLibelle() : '';
+                },
+                'attr' => [ 'class' => 'select2-control-domaines' ],
+                'multiple' => true,
                 'required' => true
             ]);
 
@@ -190,14 +220,41 @@ class IntervenantType extends AbstractType
 
         });
 
+        $builder->get('domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierDomaines) {
+
+            if ($event->getForm()->getData()) return;
+
+            $data = array_unique($event->getData());
+
+            foreach ($data as $name) {
+
+                $domaine = $this->entityManager->getRepository(Domaine::class)->findBy([ 'libelle' => $name ]);
+
+                if (!$domaine) {
+
+                    $domaine = new Domaine();
+                    $domaine->setLibelle($name);
+
+                    $event->getForm()->getParent()->getData()->addDomaine($domaine);
+
+                }
+
+                else $domaine = $domaine[0];
+
+            }
+
+            $modifierDomaines($event->getForm()->getParent());
+
+        });
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Intervenant::class,
+            'domaines' => null,
+            'file_name' => null
         ]);
-
-        $resolver->setRequired('file_name');
     }
 }

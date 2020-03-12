@@ -74,7 +74,7 @@ class Intervenant
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Domaine", inversedBy="intervenants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Domaine", inversedBy="intervenants", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $domaines;

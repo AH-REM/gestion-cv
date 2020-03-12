@@ -111,7 +111,7 @@ class IntervenantController extends AbstractController
                 $manager->persist($intervenant);
                 $manager->flush();
 
-                // return $this->redirectToRoute('list_intervenant');
+                return $this->redirectToRoute('list_intervenant');
 
             }
 
