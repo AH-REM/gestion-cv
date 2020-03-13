@@ -40,8 +40,14 @@ class IntervenantType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $func = function($d) { return $d->getLibelle(); };
 
-        $fileName = $options['file_name'];
+        $intervenant =  $options['intervenant'];
+        $domaines = $options['domaines'];
+        $domaines_array = array_map($func, $domaines);
+        $data_domaine = array_map($func, $intervenant->getDomaines()->getValues());
+
+        $fileName = $intervenant->getNameCv();
 
         $builder
             ->add('nom', TextType::class, [
@@ -102,14 +108,13 @@ class IntervenantType extends AbstractType
                 'attr' => [ 'class' => 'select2-control-diplome' ],
                 'required' => true
             ])
-            ->add('domaines', EntityType::class, [
-                'class' => Domaine::class,
+            ->add('new_domaines', ChoiceType::class, [
                 'label' => 'Domaines',
                 'placeholder' => 'Choisissez un ou plusieurs dommaines',
-                'choice_value' => function (?Domaine $domaine) {
-                    return $domaine ? $domaine->getLibelle() : '';
-                },
+                'choices' => array_combine($domaines_array, $domaines_array),
+                'data' => $data_domaine,
                 'attr' => [ 'class' => 'select2-control-domaines' ],
+                'mapped' => false,
                 'multiple' => true,
                 'required' => true
             ])
@@ -160,16 +165,17 @@ class IntervenantType extends AbstractType
 
         };
 
-        $modifierDomaines = function (FormInterface $form) {
+        $modifierDomaines = function (FormInterface $form, ?array $data) use ($domaines_array) {
 
-            $form->add('domaines', EntityType::class, [
-                'class' => Domaine::class,
+            $new_domaines = array_merge($domaines_array, $data);
+
+            $form->add('new_domaines', ChoiceType::class, [
                 'label' => 'Domaines',
                 'placeholder' => 'Choisissez un ou plusieurs dommaines',
-                'choice_value' => function (?Domaine $domaine) {
-                    return $domaine ? $domaine->getLibelle() : '';
-                },
+                'choices' => array_combine($new_domaines, $new_domaines),
+                'data' => $data,
                 'attr' => [ 'class' => 'select2-control-domaines' ],
+                'mapped' => false,
                 'multiple' => true,
                 'required' => true
             ]);
@@ -177,6 +183,8 @@ class IntervenantType extends AbstractType
         };
 
         $builder->get('emploi')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierEmploi) {
+
+            if (!$event->getData()) return;
 
             $emploi = $event->getForm()->getData();
 
@@ -195,10 +203,13 @@ class IntervenantType extends AbstractType
 
         // Récupère le niveau
         $builder->get('niveau')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            if (!$event->getForm()->getData()) return;
             $event->getForm()->getParent()->getData()->setNiveau($event->getForm()->getData());
         });
 
         $builder->get('diplome')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierDiplome) {
+
+            if (!$event->getData()) return;
 
             $diplome = $event->getForm()->getData();
 
@@ -220,30 +231,39 @@ class IntervenantType extends AbstractType
 
         });
 
-        $builder->get('domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($modifierDomaines) {
+        $findLibelle = function ($libelle) use ($domaines) {
+            foreach ($domaines as $key => $domaine) {
+                if ($domaine->getLibelle() === $libelle) {
+                    dump($domaine);
+                    return $domaine;
+                }
+            }
+            return null;
+        };
 
-            if ($event->getForm()->getData()) return;
+        $builder->get('new_domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($domaines_array, $findLibelle, $modifierDomaines) {
+
+            if (!$event->getData()) return;
 
             $data = array_unique($event->getData());
 
             foreach ($data as $name) {
 
-                $domaine = $this->entityManager->getRepository(Domaine::class)->findBy([ 'libelle' => $name ]);
+                $domaine = null;
 
-                if (!$domaine) {
+                if (!in_array($name, $domaines_array)) {
 
                     $domaine = new Domaine();
                     $domaine->setLibelle($name);
 
-                    $event->getForm()->getParent()->getData()->addDomaine($domaine);
-
                 }
+                else $domaine = $findLibelle($name);
 
-                else $domaine = $domaine[0];
+                if ($domaine) $event->getForm()->getParent()->getData()->addDomaine($domaine);
 
             }
 
-            $modifierDomaines($event->getForm()->getParent());
+            $modifierDomaines($event->getForm()->getParent(), $data);
 
         });
 
@@ -253,8 +273,8 @@ class IntervenantType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Intervenant::class,
-            'domaines' => null,
-            'file_name' => null
+            'intervenant' => null,
+            'domaines' => null
         ]);
     }
 }

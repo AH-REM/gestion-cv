@@ -13,6 +13,7 @@ use App\Service\FileUploader;
 use App\Entity\Intervenant;
 use App\Entity\TypeEmploi;
 use App\Repository\IntervenantRepository;
+use App\Repository\DomaineRepository;
 use App\Form\IntervenantType;
 
 /**
@@ -49,7 +50,7 @@ class IntervenantController extends AbstractController
      * @Route("/edit/{id}", name="edit_intervenant")
      * @Route("/new", name="new_intervenant")
      */
-    public function form(Intervenant $intervenant = null, Request $request, EntityManagerInterface $manager, FileUploader $fileUploader)
+    public function form(Intervenant $intervenant = null, Request $request, EntityManagerInterface $manager, DomaineRepository $dr, FileUploader $fileUploader)
     {
         $editMode = $intervenant ? true : false;
 
@@ -68,7 +69,8 @@ class IntervenantController extends AbstractController
         else $intervenant->setNiveau($intervenant->getDiplome()->getNiveau());
 
         $form = $this->createForm(IntervenantType::class, $intervenant, [
-            'file_name' => $intervenant->getNameCv(),
+            'intervenant' => $intervenant,
+            'domaines' => $dr->findAll()
         ]);
 
         $form->handleRequest($request);
@@ -111,7 +113,7 @@ class IntervenantController extends AbstractController
                 $manager->persist($intervenant);
                 $manager->flush();
 
-                return $this->redirectToRoute('list_intervenant');
+                //return $this->redirectToRoute('list_intervenant');
 
             }
 
