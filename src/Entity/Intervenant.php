@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntervenantRepository")
  */
@@ -20,36 +22,61 @@ class Intervenant
 
     /**
      * @ORM\Column(type="string", length=25)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 25
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=25)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      max = 25
+     * )
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Length(
+     *      max = 50
+     * )
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=6, nullable=true)
+     * @Assert\Length(
+     *      max = 6
+     * )
      */
     private $cp;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Length(
+     *      max = 10
+     * )
      */
     private $telFixe;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Length(
+     *      max = 10
+     * )
      */
     private $telPortable;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
+     * @Assert\Email()
+     * @Assert\Length(
+     *      max = 25
+     * )
      */
     private $mail;
 
@@ -60,6 +87,9 @@ class Intervenant
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Length(
+     *      max = 50
+     * )
      */
     private $nameCv;
 
@@ -75,7 +105,6 @@ class Intervenant
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Domaine", inversedBy="intervenants", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $domaines;
 
@@ -88,7 +117,6 @@ class Intervenant
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeEmploi", inversedBy="intervenants")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $emploi;
 
