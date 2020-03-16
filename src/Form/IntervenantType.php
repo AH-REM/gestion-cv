@@ -17,8 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,6 +42,7 @@ class IntervenantType extends AbstractType
 
         $intervenant =  $options['intervenant'];
         $domaines = $options['domaines'];
+
         $domaines_array = array_map($func, $domaines);
         $data_domaine = array_map($func, $intervenant->getDomaines()->getValues());
 
@@ -66,17 +65,17 @@ class IntervenantType extends AbstractType
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false
             ])
-            ->add('cp', NumberType::class, [
+            ->add('cp', TextType::class, [
                 'label' => 'Code Postal',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false,
             ])
-            ->add('telFixe', TelType::class, [
+            ->add('telFixe', TextType::class, [
                 'label' => 'Téléphone Fixe',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false
             ])
-            ->add('telPortable', TelType::class, [
+            ->add('telPortable', TextType::class, [
                 'label' => 'Téléphone Portable',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => false
@@ -131,8 +130,7 @@ class IntervenantType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])
                 ],
-                'required' => ( $fileName ? false : true ),
-                'required' => false
+                'required' => ( $fileName ? false : true )
             ])
         ;
 
