@@ -10,9 +10,9 @@
 
 {% block body %}
 
-    <h1>Formulaire ?</h1>
+    <h1>FORMULAIRE D’ENREGISTREMENT D’UN CV</h1>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi mollitia, autem ex ipsa unde, voluptate in rem distinctio quas, dignissimos, incidunt fugit perferendis ducimus dolor.</p>
+    <p>Veuillez, s’il vous plait, compléter les différents champs ainsi que télécharger le CV correspondant au format Pdf puis valider.</p>
 
 	{{ form_start(form) }}
 
@@ -138,7 +138,15 @@
 
         </div>
 
-		<button class="btn btn-primary" type="submit">Enregistrer</button>
+		<button class="btn btn-primary" type="submit">
+
+            {% if editMode %}
+                Modifier
+            {% else %}
+                Enregistrer
+            {% endif %}
+
+        </button>
 
 	{{ form_end(form) }}
 

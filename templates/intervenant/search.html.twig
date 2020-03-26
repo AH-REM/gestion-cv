@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/select2-form.css') }}" />
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>Formulaire ?</h1>
+
+	{{ form_start(form) }}
+
+        <div class="form-row">
+
+            <div class="form-group col-md-3">
+
+                {{ form_row(form.nom) }}
+
+            </div>
+
+            <div class="form-group col-md-3">
+
+                {{ form_row(form.prenom) }}
+
+            </div>
+
+            <div class="form-group col-md-6">
+
+                {{ form_row(form.emploi) }}
+
+           </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-6">
+
+                {{ form_row(form.diplome) }}
+
+            </div>
+
+            <div class="form-group col-md-6">
+
+                {{ form_row(form.niveau) }}
+
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md">
+
+                {{ form_row(form.domaines) }}
+
+            </div>
+
+        </div>
+
+		<button class="btn btn-primary" type="submit">Enregistrer</button>
+
+	{{ form_end(form) }}
+
+    {% include 'intervenant/_table.html.twig' %}
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/intervenant-search-form.js') }}"></script>
+
+{% endblock %}

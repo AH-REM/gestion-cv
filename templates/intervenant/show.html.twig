@@ -4,8 +4,23 @@
 
     <h1>{{ intervenant.nom }} {{ intervenant.prenom }}</h1>
 
+    <p>Ajouté le : {{ intervenant.createdAt|date("d/m/Y") }}</p>
+
+    <p>Adresse : {{ intervenant.adresse }}</p>
+    <p>Code postal : {{ intervenant.cp }}</p>
+    <p>Telephone Fixe : {{ intervenant.telFixe }}</p>
+    <p>Telephone Portable : {{ intervenant.telPortable }}</p>
+    <p>Mail : {{ intervenant.mail }}</p>
+    <p>Divers : {{ intervenant.divers }}</p>
+
+    <p>Diplome : {{ intervenant.diplome }}</p>
+    <p>Emploi : {{ intervenant.emploi }}</p>
+    <p>Domaines : {# {{ intervenant.domaines }} #}</p>
+
+    <p>Date de mise à jour du cv : {{ intervenant.dateMajCv|date("d/m/Y") }}</p>
+
     <a class="btn btn-secondary"
-       href="{{ asset('cv/') }}"
+       href="/cv/{{ intervenant.nameCv }}"
        role="button">
        Afficher CV
     </a>

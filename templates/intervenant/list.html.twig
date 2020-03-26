@@ -6,48 +6,6 @@
 
     <a class="btn btn-primary" href="{{ path('new_intervenant') }}" role="button">Ajouter</a>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Prenom</th>
-                <th scope="col">mail</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% for intervenant in intervenants %}
-
-                <tr>
-
-                    <td>{{ intervenant.prenom }}</td>
-                    <td>{{ intervenant.nom }}</td>
-                    <td>{{ intervenant.mail }}</td>
-                    <td>
-
-                        <a class="btn btn-info"
-                           href="{{ path('show_intervenant', { id: intervenant.id }) }}"
-                           role="button">
-                           Afficher
-                        </a>
-
-                        <a class="btn btn-secondary"
-                           href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
-                           role="button">
-                           Modifier
-                        </a>
-
-                    </td>
-
-                </tr>
-
-            {% endfor %}
-
-        </tbody>
-    </table>
-
-
-
+    {% include 'intervenant/_table.html.twig' %}
 
 {% endblock %}
