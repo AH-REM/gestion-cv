@@ -9,7 +9,6 @@ $( document ).ready(function() {
 
     $(".select2-control-emploi").select2({
         placeholder: "Choisissez un emploi",
-        //maximumSelectionLength: 1,
         theme: 'bootstrap4',
         tags: true
     });
