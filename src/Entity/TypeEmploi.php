@@ -21,9 +21,9 @@ class TypeEmploi
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=50)
      * @Assert\Length(
-     *      max = 25
+     *      max = 50
      * )
      */
     private $libelle;

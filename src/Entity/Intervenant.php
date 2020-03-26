@@ -6,10 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntervenantRepository")
+ * @UniqueEntity("mail")
  */
 class Intervenant
 {
@@ -21,27 +24,27 @@ class Intervenant
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
      * @Assert\Length(
-     *      max = 25
+     *      max = 50
      * )
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
      * @Assert\Length(
-     *      max = 25
+     *      max = 50
      * )
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\Length(
-     *      max = 50
+     *      max = 100
      * )
      */
     private $adresse;
@@ -71,11 +74,11 @@ class Intervenant
     private $telPortable;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="mail", type="string", length=100)
      * @Assert\NotBlank
      * @Assert\Email()
      * @Assert\Length(
-     *      max = 25
+     *      max = 100
      * )
      */
     private $mail;
@@ -86,10 +89,7 @@ class Intervenant
     private $divers;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Length(
-     *      max = 50
-     * )
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $nameCv;
 
@@ -183,7 +183,7 @@ class Intervenant
         return $this->telFixe;
     }
 
-    public function setTelFixe(?int $telFixe): self
+    public function setTelFixe(?string $telFixe): self
     {
         $this->telFixe = $telFixe;
 
@@ -195,7 +195,7 @@ class Intervenant
         return $this->telPortable;
     }
 
-    public function setTelPortable(?int $telPortable): self
+    public function setTelPortable(?string $telPortable): self
     {
         $this->telPortable = $telPortable;
 

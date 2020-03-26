@@ -21,10 +21,10 @@ class Domaine
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank
      * @Assert\Length(
-     *      max = 25
+     *      max = 50
      * )
      */
     private $libelle;
