@@ -239,11 +239,12 @@ class IntervenantType extends AbstractType
             return null;
         };
 
-        $builder->get('new_domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($domaines_array, $findLibelle, $modifierDomaines) {
+        $builder->get('new_domaines')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($intervenant, $domaines_array, $findLibelle, $modifierDomaines) {
 
             if (!$event->getData()) return;
 
             $data = array_unique($event->getData());
+            $intervenant->getDomaines()->clear();
 
             foreach ($data as $name) {
 
