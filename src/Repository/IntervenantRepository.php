@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Intervenant;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,38 @@ class IntervenantRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Intervenant::class);
+    }
+
+    /**
+     * @return Intervenant[] Returns an array of Intervenant objects
+     */
+    public function searchIntervenant($data)
+    {
+        $res = $this->createQueryBuilder('i');
+
+        if ($data['nom']) $res->andWhere('i.nom LIKE :val')->setParameter('val', $data['nom'] . '%');
+
+        if ($data['prenom']) $res->andWhere('i.prenom LIKE :val')->setParameter('val', $data['prenom']);
+
+        if ($data['emploi']) $res->andWhere('i.emploi = :val')->setParameter('val', $data['emploi']);
+
+        if ($data['diplome']) $res->andWhere('i.diplome = :val')->setParameter('val', $data['diplome']);
+        else if ($data['niveau']) {
+            $res->innerJoin('i.diplome', 'di')->andWhere('di.niveau = :val')->setParameter('val', $data['niveau']);
+        }
+
+        if (!$data['domaines']->isEmpty()) {
+
+            foreach ($data['domaines']->toArray() as $k => $domaine) {
+
+                $res->andWhere(":domaine$k MEMBER OF i.domaines")->setParameter("domaine$k", $domaine);
+
+            }
+
+        }
+
+        return $res->getQuery()
+                   ->getResult();
     }
 
     // /**

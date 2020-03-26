@@ -12,9 +12,12 @@ use App\Service\FileUploader;
 
 use App\Entity\Intervenant;
 use App\Entity\TypeEmploi;
+
 use App\Repository\IntervenantRepository;
 use App\Repository\DomaineRepository;
+
 use App\Form\IntervenantType;
+use App\Form\IntervenantSearchType;
 
 /**
  * @Route("/intervenant")
@@ -26,7 +29,8 @@ class IntervenantController extends AbstractController
      */
     public function list(IntervenantRepository $repo)
     {
-        $intervenants = $repo->findAll();
+        // $intervenants = $repo->findAll();
+        $intervenants = $repo->findBy([], ['nom' => 'ASC']);
 
         return $this->render('intervenant/list.html.twig', [
             'intervenants' => $intervenants
@@ -45,6 +49,28 @@ class IntervenantController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/search", name="search_intervenant")
+     */
+    public function search(Request $request, IntervenantRepository $repo) {
+
+        $form = $this->createForm(IntervenantSearchType::class);
+
+        $form->handleRequest($request);
+        $intervenants = null;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $intervenants = $repo->searchIntervenant($form->getData());
+
+        }
+
+        return $this->render('intervenant/search.html.twig', [
+            'form' => $form->createView(),
+            'intervenants' => $intervenants,
+        ]);
+
+    }
 
     /**
      * @Route("/edit/{id}", name="edit_intervenant")
@@ -113,13 +139,14 @@ class IntervenantController extends AbstractController
                 $manager->persist($intervenant);
                 $manager->flush();
 
-                //return $this->redirectToRoute('list_intervenant');
+                return $this->redirectToRoute('show_intervenant', [ 'id' => $intervenant->getId() ]);
 
             }
 
         }
 
         return $this->render('intervenant/form.html.twig', [
+            'intervenant' => $intervenant,
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);
