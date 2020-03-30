@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\IntervenantSearch;
 use App\Entity\TypeEmploi;
 use App\Entity\Diplome;
 use App\Entity\Niveau;
@@ -20,25 +21,31 @@ class IntervenantSearchType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [ 'autocomplete' => 'off' ],
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Nom',
+                    'autocomplete' => 'off'
+                 ],
                 'required' => false,
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => [ 'autocomplete' => 'off' ],
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Prénom',
+                    'autocomplete' => 'off'
+                ],
                 'required' => false,
             ])
             ->add('emploi', EntityType::class, [
                 'class' => TypeEmploi::class,
-                'label' => 'Emploi',
+                'label' => false,
                 'placeholder' => 'Choisissez un emploi',
-                'attr' => ['class' => 'select2-control'],
+                'attr' => [ 'class' => 'select2-control' ],
                 'required' => false,
             ])
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
-                'label' => 'Niveau du diplome',
+                'label' => false,
                 'placeholder' => 'Choisissez un niveau',
                 'choice_attr' => function(Niveau $niveau) {
                     return $niveau ? [ 'niveau' => $niveau->getNum() ] : [];
@@ -48,7 +55,7 @@ class IntervenantSearchType extends AbstractType
             ])
             ->add('diplome', EntityType::class, [
                 'class' => Diplome::class,
-                'label' => 'Diplome',
+                'label' => false,
                 'placeholder' => 'Choisissez un diplome',
                 'choice_attr' => function(Diplome $diplome) {
                     return $diplome ? [ 'niveau' => $diplome->getNiveau()->getNum() ] : [];
@@ -58,7 +65,7 @@ class IntervenantSearchType extends AbstractType
             ])
             ->add('domaines', EntityType::class, [
                 'class' => Domaine::class,
-                'label' => 'Domaines',
+                'label' => false,
                 'placeholder' => 'Choisissez un ou plusieurs dommaines',
                 'attr' => ['class' => 'select2-control-domaines'],
                 'multiple' => true,
@@ -70,7 +77,13 @@ class IntervenantSearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => IntervenantSearch::class,
+            'method' => 'get',
+            'csrf_protection' => false
         ]);
+    }
+
+    public function getBlockPrefix() {
+        return '';
     }
 }

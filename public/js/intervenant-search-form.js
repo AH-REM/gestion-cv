@@ -1,8 +1,8 @@
 $( document ).ready(function() {
 
     function update_niveau(niveau) {
-        var val = $("#intervenant_search_niveau option[niveau="+niveau+"]");
-        if (val) $('#intervenant_search_niveau').val(val.val()).change();
+        var val = $("#niveau option[niveau="+niveau+"]");
+        if (val) $('#niveau').val(val.val()).change();
     }
 
     $('.select2-control-diplome').on('change', function() {
@@ -10,7 +10,7 @@ $( document ).ready(function() {
         if (niveau) update_niveau(niveau);
     });
 
-    $('#intervenant_search_niveau').on('change', function() {
+    $('#niveau').on('change', function() {
         var niveau = $(this).find(":checked").attr('niveau');
         var dip_niveau = $('.select2-control-diplome option:selected').attr('niveau');
 

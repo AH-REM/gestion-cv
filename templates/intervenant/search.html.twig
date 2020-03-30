@@ -10,63 +10,81 @@
 
 {% block body %}
 
-    <h1>Formulaire ?</h1>
+    <div class="jumbotron">
+        <div class="container">
 
-	{{ form_start(form) }}
+            <h1>RECHERCHE INTERVENANTS</h1>
 
-        <div class="form-row">
+            {{ form_start(form) }}
 
-            <div class="form-group col-md-3">
+                <div class="form-row">
 
-                {{ form_row(form.nom) }}
+                    <div class="form-group col-md-3">
 
-            </div>
+                        {{ form_row(form.nom) }}
 
-            <div class="form-group col-md-3">
+                    </div>
 
-                {{ form_row(form.prenom) }}
+                    <div class="form-group col-md-3">
 
-            </div>
+                        {{ form_row(form.prenom) }}
 
-            <div class="form-group col-md-6">
+                    </div>
 
-                {{ form_row(form.emploi) }}
+                    <div class="form-group col-md-6">
 
-           </div>
+                        {{ form_row(form.emploi) }}
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+
+                        {{ form_row(form.diplome) }}
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+
+                        {{ form_row(form.niveau) }}
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md">
+
+                        {{ form_row(form.domaines) }}
+
+                    </div>
+
+                </div>
+
+        		<button class="btn btn-primary" type="submit">Rechercher</button>
+
+        	{{ form_end(form) }}
 
         </div>
+    </div>
 
-        <div class="form-row">
+    <div class="container">
 
-            <div class="form-group col-md-6">
+        {% include 'intervenant/_table.html.twig' %}
 
-                {{ form_row(form.diplome) }}
+        {% if intervenants %}
 
+            <div class="pagination">
+                {{ knp_pagination_render(intervenants) }}
             </div>
 
-            <div class="form-group col-md-6">
+        {% endif %}
 
-                {{ form_row(form.niveau) }}
-
-            </div>
-
-        </div>
-
-        <div class="form-row">
-
-            <div class="form-group col-md">
-
-                {{ form_row(form.domaines) }}
-
-            </div>
-
-        </div>
-
-		<button class="btn btn-primary" type="submit">Enregistrer</button>
-
-	{{ form_end(form) }}
-
-    {% include 'intervenant/_table.html.twig' %}
+    </div>
 
 {% endblock %}
 
