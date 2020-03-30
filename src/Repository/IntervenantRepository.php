@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Intervenant;
+use App\Entity\IntervenantSearch;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Intervenant|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,35 +23,49 @@ class IntervenantRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Intervenant[] Returns an array of Intervenant objects
+     * @return Query
      */
-    public function searchIntervenant($data)
+    public function findAllQuery(): Query
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.nom', 'ASC')
+            ->getQuery()
+        ;
+    }
+
+    /**
+     * @return Query
+     */
+    public function searchIntervenantQuery(IntervenantSearch $search): Query
     {
         $res = $this->createQueryBuilder('i');
 
-        if ($data['nom']) $res->andWhere('i.nom LIKE :val')->setParameter('val', $data['nom'] . '%');
+        if ($search->getNom()) $res->andWhere('i.nom LIKE :nom')->setParameter('nom', $search->getNom() . '%');
 
-        if ($data['prenom']) $res->andWhere('i.prenom LIKE :val')->setParameter('val', $data['prenom']);
+        if ($search->getPrenom()) $res->andWhere('i.prenom LIKE :prenom')->setParameter('prenom', $search->getPrenom());
 
-        if ($data['emploi']) $res->andWhere('i.emploi = :val')->setParameter('val', $data['emploi']);
+        if ($search->getEmploi()) $res->andWhere('i.emploi = :emploi')->setParameter('emploi', $search->getEmploi());
 
-        if ($data['diplome']) $res->andWhere('i.diplome = :val')->setParameter('val', $data['diplome']);
-        else if ($data['niveau']) {
-            $res->innerJoin('i.diplome', 'di')->andWhere('di.niveau = :val')->setParameter('val', $data['niveau']);
+        if ($search->getDiplome()) $res->andWhere('i.diplome = :diplome')->setParameter('diplome', $search->getDiplome());
+        else if ($search->getNiveau()) {
+            $res->innerJoin('i.diplome', 'di')->andWhere('di.niveau = :niveau')->setParameter('niveau', $search->getNiveau());
         }
 
-        if (!$data['domaines']->isEmpty()) {
+        if ($search->getDomaines()->count() > 0) {
 
-            foreach ($data['domaines']->toArray() as $k => $domaine) {
+            $k = 0;
+            foreach ($search->getDomaines() as $domaine) {
 
+                $k++;
                 $res->andWhere(":domaine$k MEMBER OF i.domaines")->setParameter("domaine$k", $domaine);
 
             }
 
         }
 
-        return $res->getQuery()
-                   ->getResult();
+        $res->orderBy('i.nom', 'ASC');
+
+        return $res->getQuery();
     }
 
     // /**
