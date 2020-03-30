@@ -10,7 +10,12 @@
 
 {% block body %}
 
-    <h1>FORMULAIRE D’ENREGISTREMENT D’UN CV</h1>
+
+    {% if editMode %}
+        <h1>FORMULAIRE DE MODIFICATION D'UN CV EXISTANT</h1>
+    {% else %}
+        <h1>FORMULAIRE D’ENREGISTREMENT D’UN CV</h1>
+    {% endif %}
 
     <p>Veuillez, s’il vous plait, compléter les différents champs ainsi que télécharger le CV correspondant au format Pdf puis valider.</p>
 
