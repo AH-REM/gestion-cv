@@ -8,4 +8,8 @@
 
     {% include 'intervenant/_table.html.twig' %}
 
+    <div class="pagination">
+        {{ knp_pagination_render(intervenants) }}
+    </div>
+
 {% endblock %}

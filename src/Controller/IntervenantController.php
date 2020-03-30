@@ -8,9 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormError;
 
+use Knp\Component\Pager\PaginatorInterface;
+
 use App\Service\FileUploader;
 
 use App\Entity\Intervenant;
+use App\Entity\IntervenantSearch;
 use App\Entity\TypeEmploi;
 
 use App\Repository\IntervenantRepository;
@@ -27,10 +30,13 @@ class IntervenantController extends AbstractController
     /**
      * @Route("/", name="list_intervenant")
      */
-    public function list(IntervenantRepository $repo)
+    public function list(Request $request, IntervenantRepository $repo, PaginatorInterface $paginator)
     {
-        // $intervenants = $repo->findAll();
-        $intervenants = $repo->findBy([], ['nom' => 'ASC']);
+        $intervenants = $paginator->paginate(
+            $repo->findAllQuery(),
+            $request->query->getInt('page', 1), /* Page par défaut */
+            5 /* Resultat maximum */
+        );
 
         return $this->render('intervenant/list.html.twig', [
             'intervenants' => $intervenants
@@ -52,18 +58,23 @@ class IntervenantController extends AbstractController
     /**
      * @Route("/search", name="search_intervenant")
      */
-    public function search(Request $request, IntervenantRepository $repo) {
+    public function search(Request $request, IntervenantRepository $repo, PaginatorInterface $paginator) {
 
-        $form = $this->createForm(IntervenantSearchType::class);
-
+        $search = new IntervenantSearch();
+        $form = $this->createForm(IntervenantSearchType::class, $search);
         $form->handleRequest($request);
+
         $intervenants = null;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        //if ($form->isSubmitted() && $form->isValid()) {
 
-            $intervenants = $repo->searchIntervenant($form->getData());
+            $intervenants = $paginator->paginate(
+                $repo->searchIntervenantQuery($search),
+                $request->query->getInt('page', 1), /* Page par défaut */
+                5 /* Resultat maximum */
+            );
 
-        }
+        //}
 
         return $this->render('intervenant/search.html.twig', [
             'form' => $form->createView(),
