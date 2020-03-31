@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h1>Les domaines</h1>
+
+        <a class="btn btn-primary" href="{{ path('new_domaine') }}" role="button">Ajouter</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Libelle</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for domaine in domaines %}
+
+                    <tr>
+                        <td>{{ domaine.libelle }}</td>
+                        <td>
+
+                            <a class="btn btn-info"
+                               href="{{ path('edit_domaine', { id: domaine.id }) }}"
+                               role="button">
+                               Modifier
+                            </a>
+
+                            {% if domaine.intervenants|length < 1 %}
+
+                                <button
+                                    type="button"
+                                    class="btn btn-warning"
+                                    data-toggle="modal" data-target="#modal-delete"
+                                    data-libelle="{{ domaine.libelle }}"
+                                    data-pathdel="{{ path('delete_domaine', { id: domaine.id }) }}">
+                                    Supprimer
+                                </button>
+
+                            {% endif %}
+
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            {{ knp_pagination_render(domaines) }}
+        </div>
+
+        {# Modal confirmation #}
+        {% include 'modules/del_confirm.html.twig' %}
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/modal-delete.js') }}"></script>
+
+{% endblock %}
