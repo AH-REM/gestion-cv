@@ -8,9 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormError;
 
-use Knp\Component\Pager\PaginatorInterface;
-
 use App\Service\FileUploader;
+use App\Service\Paginator;
 
 use App\Entity\Intervenant;
 use App\Entity\IntervenantSearch;
@@ -30,12 +29,11 @@ class IntervenantController extends AbstractController
     /**
      * @Route("/", name="list_intervenant")
      */
-    public function list(Request $request, IntervenantRepository $repo, PaginatorInterface $paginator)
+    public function list(Request $request, IntervenantRepository $repo, Paginator $paginator)
     {
         $intervenants = $paginator->paginate(
             $repo->findAllQuery(),
-            $request->query->getInt('page', 1), /* Page par défaut */
-            5 /* Resultat maximum */
+            $request
         );
 
         return $this->render('intervenant/list.html.twig', [
@@ -58,23 +56,16 @@ class IntervenantController extends AbstractController
     /**
      * @Route("/search", name="search_intervenant")
      */
-    public function search(Request $request, IntervenantRepository $repo, PaginatorInterface $paginator) {
+    public function search(Request $request, IntervenantRepository $repo, Paginator $paginator) {
 
         $search = new IntervenantSearch();
         $form = $this->createForm(IntervenantSearchType::class, $search);
         $form->handleRequest($request);
 
-        $intervenants = null;
-
-        //if ($form->isSubmitted() && $form->isValid()) {
-
-            $intervenants = $paginator->paginate(
-                $repo->searchIntervenantQuery($search),
-                $request->query->getInt('page', 1), /* Page par défaut */
-                5 /* Resultat maximum */
-            );
-
-        //}
+        $intervenants = $paginator->paginate(
+            $repo->searchIntervenantQuery($search),
+            $request
+        );
 
         return $this->render('intervenant/search.html.twig', [
             'form' => $form->createView(),
