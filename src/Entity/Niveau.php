@@ -23,6 +23,10 @@ class Niveau
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotNull
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 10,
+     * )
      */
     private $num;
 

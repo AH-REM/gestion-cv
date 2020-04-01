@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Niveau;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Niveau|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,19 @@ class NiveauRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Niveau::class);
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllQuery(): Query
+    {
+        return $this->createQueryBuilder('n')
+            ->addSelect('n.id', 'n.libelle', 'n.num as numero', 'size(n.diplomes) as size')
+            ->groupBy('n')
+            ->orderBy('n.num', 'ASC')
+            ->getQuery()
+        ;
     }
 
     // /**

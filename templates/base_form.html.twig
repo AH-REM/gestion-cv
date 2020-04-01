@@ -5,22 +5,12 @@
     <div class="container">
 
         {% if editMode %}
-            <h1>Modification domaine</h1>
+            <h1>Modification</h1>
         {% else %}
-            <h1>Ajout domaine</h1>
+            <h1>Ajout</h1>
         {% endif %}
 
     	{{ form_start(form) }}
-
-            <div class="form-row">
-
-                <div class="form-group col-auto">
-
-                    {{ form_row(form.libelle) }}
-
-                </div>
-
-            </div>
 
             <button class="btn btn-primary" type="submit">
 

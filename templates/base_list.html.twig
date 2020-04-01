@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h1>{{ title }}</h1>
+
+        <a class="btn btn-primary" href="{{ path('new_' ~ name) }}" role="button">Ajouter</a>
+
+        {% if collection is empty %}
+            Aucune donnée
+        {% else %}
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for key in collection[0]|keys %}
+                            {% if key != 0 or key != 'size' %}
+                                <th scope="col">{{ key }}</th>
+                            {% endif %}
+                        {% endfor %}
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for data in collection %}
+
+                        <tr>
+                            {% for key, intitule in data %}
+                                {% if key != 0 or key != 'size' %}
+                                    <td>{{ intitule }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td>
+
+                                <a class="btn btn-info"
+                                   href="{{ path('edit_' ~ name, { id: data.id }) }}"
+                                   role="button">
+                                   Modifier
+                                </a>
+
+                                {% if data.size < 1 %}
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-warning"
+                                        data-toggle="modal" data-target="#modal-delete"
+                                        data-libelle="{{ data.libelle }}"
+                                        data-pathdel="{{ path('delete_' ~ name, { id: data.id }) }}">
+                                        Supprimer
+                                    </button>
+
+                                {% endif %}
+
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                {{ knp_pagination_render(collection) }}
+            </div>
+
+            {# Modal confirmation #}
+            {% include 'modules/del_confirm.html.twig' %}
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="{{ asset('js/modal-delete.js') }}"></script>
+
+{% endblock %}

@@ -7,17 +7,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Repository\DomaineRepository;
+use App\Repository\NiveauRepository;
 
 use App\Service\Paginator;
 
-use App\Entity\Domaine;
-use App\Form\DomaineType;
+use App\Entity\Niveau;
+use App\Form\NiveauType;
 
 /**
- * @Route("/domaine")
+ * @Route("/niveau")
  */
-class DomaineController extends AbstractController
+class NiveauController extends AbstractController
 {
     private $name;
     private $manager;
@@ -25,15 +25,15 @@ class DomaineController extends AbstractController
 
     public function __construct(EntityManagerInterface $manager, Paginator $paginator)
     {
-        $this->name = 'domaine';
+        $this->name = 'niveau';
         $this->manager = $manager;
         $this->paginator = $paginator;
     }
 
     /**
-     * @Route("/", name="list_domaine")
+     * @Route("/", name="list_niveau")
      */
-    public function list(Request $request, DomaineRepository $repo)
+    public function list(Request $request, NiveauRepository $repo)
     {
         $collection = $this->paginator->paginate(
             $repo->findAllQuery(),
@@ -41,34 +41,34 @@ class DomaineController extends AbstractController
         );
 
         return $this->render('base_list.html.twig', [
-            'title' => 'Les domaines',
+            'title' => 'Les niveaux',
             'collection' => $collection,
             'name' => $this->name,
         ]);
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_domaine")
+     * @Route("/delete/{id}", name="delete_niveau")
      */
-    public function delete(Domaine $domaine = null, Request $request)
+    public function delete(Niveau $niveau = null, Request $request)
     {
-        if ($domaine && $domaine->getIntervenants()->count() < 1) {
+        if ($niveau && $niveau->getDiplomes()->count() < 1) {
 
             // On supprime le domaine
-            $this->manager->remove($domaine);
+            $this->manager->remove($niveau);
             $this->manager->flush();
 
         }
-        return $this->redirectToRoute('list_domaine');
+        return $this->redirectToRoute('list_niveau');
     }
 
     /**
-     * @Route("/edit/{id}", name="edit_domaine")
-     * @Route("/new", name="new_domaine")
+     * @Route("/edit/{id}", name="edit_niveau")
+     * @Route("/new", name="new_niveau")
      */
-    public function form(Domaine $domaine = null, Request $request)
+    public function form(Niveau $niveau = null, Request $request)
     {
-        $editMode = $domaine ? true : false;
+        $editMode = $niveau ? true : false;
 
         // Si le domaine n'est pas donné en parametre
         if (!$editMode) {
@@ -77,22 +77,22 @@ class DomaineController extends AbstractController
             $currentRoute = $request->attributes->get('_route');
 
             // Si on est en mode édition, on renvoie vers l'autre route
-            if ($currentRoute == 'edit_domaine') return $this->redirectToRoute('new_domaine');
-            else $domaine = new Domaine();
+            if ($currentRoute == 'edit_niveau') return $this->redirectToRoute('new_niveau');
+            else $niveau = new Niveau();
 
         }
 
-        $form = $this->createForm(DomaineType::class, $domaine);
+        $form = $this->createForm(NiveauType::class, $niveau);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $domaine = $form->getData();
+            $niveau = $form->getData();
 
-            $this->manager->persist($domaine);
+            $this->manager->persist($niveau);
             $this->manager->flush();
 
-            return $this->redirectToRoute('list_domaine');
+            return $this->redirectToRoute('list_niveau');
 
         }
 

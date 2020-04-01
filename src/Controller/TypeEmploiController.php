@@ -7,17 +7,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Repository\DomaineRepository;
+use App\Repository\TypeEmploiRepository;
 
 use App\Service\Paginator;
 
-use App\Entity\Domaine;
-use App\Form\DomaineType;
+use App\Entity\TypeEmploi;
+use App\Form\TypeEmploiType;
 
 /**
- * @Route("/domaine")
+ * @Route("/emploi")
  */
-class DomaineController extends AbstractController
+class TypeEmploiController extends AbstractController
 {
     private $name;
     private $manager;
@@ -25,15 +25,15 @@ class DomaineController extends AbstractController
 
     public function __construct(EntityManagerInterface $manager, Paginator $paginator)
     {
-        $this->name = 'domaine';
+        $this->name = 'emploi';
         $this->manager = $manager;
         $this->paginator = $paginator;
     }
 
     /**
-     * @Route("/", name="list_domaine")
+     * @Route("/", name="list_emploi")
      */
-    public function list(Request $request, DomaineRepository $repo)
+    public function index(Request $request, TypeEmploiRepository $repo)
     {
         $collection = $this->paginator->paginate(
             $repo->findAllQuery(),
@@ -41,58 +41,58 @@ class DomaineController extends AbstractController
         );
 
         return $this->render('base_list.html.twig', [
-            'title' => 'Les domaines',
+            'title' => 'Les emplois',
             'collection' => $collection,
             'name' => $this->name,
         ]);
     }
 
     /**
-     * @Route("/delete/{id}", name="delete_domaine")
+     * @Route("/delete/{id}", name="delete_emploi")
      */
-    public function delete(Domaine $domaine = null, Request $request)
+    public function delete(TypeEmploi $emploi = null, Request $request)
     {
-        if ($domaine && $domaine->getIntervenants()->count() < 1) {
+        if ($emploi && $emploi->getIntervenants()->count() < 1) {
 
             // On supprime le domaine
-            $this->manager->remove($domaine);
+            $this->manager->remove($emploi);
             $this->manager->flush();
 
         }
-        return $this->redirectToRoute('list_domaine');
+        return $this->redirectToRoute('list_emploi');
     }
 
     /**
-     * @Route("/edit/{id}", name="edit_domaine")
-     * @Route("/new", name="new_domaine")
+     * @Route("/edit/{id}", name="edit_emploi")
+     * @Route("/new", name="new_emploi")
      */
-    public function form(Domaine $domaine = null, Request $request)
-    {
-        $editMode = $domaine ? true : false;
+    public function form(TypeEmploi $emploi = null, Request $request) {
 
-        // Si le domaine n'est pas donné en parametre
+        $editMode = $emploi ? true : false;
+
+        // Si l'emploi n'est pas donné en parametre
         if (!$editMode) {
 
             // On récupère la route
             $currentRoute = $request->attributes->get('_route');
 
             // Si on est en mode édition, on renvoie vers l'autre route
-            if ($currentRoute == 'edit_domaine') return $this->redirectToRoute('new_domaine');
-            else $domaine = new Domaine();
+            if ($currentRoute == 'edit_emploi') return $this->redirectToRoute('new_emploi');
+            else $emploi = new TypeEmploi();
 
         }
 
-        $form = $this->createForm(DomaineType::class, $domaine);
+        $form = $this->createForm(TypeEmploiType::class, $emploi);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $domaine = $form->getData();
+            $emploi = $form->getData();
 
-            $this->manager->persist($domaine);
+            $this->manager->persist($emploi);
             $this->manager->flush();
 
-            return $this->redirectToRoute('list_domaine');
+            return $this->redirectToRoute('list_emploi');
 
         }
 
@@ -101,5 +101,7 @@ class DomaineController extends AbstractController
             'editMode' => $editMode
         ]);
 
+
     }
+
 }
