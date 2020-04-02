@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Diplome;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Diplome|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,20 @@ class DiplomeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Diplome::class);
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllQuery(): Query
+    {
+        return $this->createQueryBuilder('d')
+            ->addSelect('d.id', 'd.libelle', 'n.num as niveau', 'size(d.intervenants) as size')
+            ->innerJoin('d.niveau', 'n')
+            ->groupBy('d')
+            ->orderBy('d.libelle', 'ASC')
+            ->getQuery()
+        ;
     }
 
     // /**
