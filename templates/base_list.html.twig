@@ -41,13 +41,19 @@
                                    Modifier
                                 </a>
 
-                                {% if data.size < 1 %}
+                                {% if data.size is not defined or data.size < 1 %}
 
                                     <button
                                         type="button"
                                         class="btn btn-warning"
                                         data-toggle="modal" data-target="#modal-delete"
-                                        data-libelle="{{ data.libelle }}"
+                                        data-libelle="
+                                            {% if data.libelle is defined %}
+                                                {{ data.libelle }}
+                                            {% elseif data.username is defined %}
+                                                {{ data.username }}
+                                            {% endif %}
+                                        "
                                         data-pathdel="{{ path('delete_' ~ name, { id: data.id }) }}">
                                         Supprimer
                                     </button>

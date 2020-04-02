@@ -22,7 +22,7 @@
         <p>Date de mise à jour du cv : {{ intervenant.dateMajCv|date("d/m/Y") }}</p>
 
         <a class="btn btn-secondary"
-           href="/cv/{{ intervenant.nameCv }}"
+           href="{{ path('show_cv', { file: intervenant.nameCv }) }}"
            role="button">
            Afficher CV
         </a>
