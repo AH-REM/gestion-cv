@@ -15,7 +15,7 @@ use App\Entity\Niveau;
 use App\Form\NiveauType;
 
 /**
- * @Route("/niveau")
+ * @Route("/gestion/niveau")
  */
 class NiveauController extends AbstractController
 {
@@ -54,7 +54,7 @@ class NiveauController extends AbstractController
     {
         if ($niveau && $niveau->getDiplomes()->count() < 1) {
 
-            // On supprime le domaine
+            // On supprime le niveau
             $this->manager->remove($niveau);
             $this->manager->flush();
 
@@ -70,7 +70,7 @@ class NiveauController extends AbstractController
     {
         $editMode = $niveau ? true : false;
 
-        // Si le domaine n'est pas donné en parametre
+        // Si le niveau n'est pas donné en parametre
         if (!$editMode) {
 
             // On récupère la route

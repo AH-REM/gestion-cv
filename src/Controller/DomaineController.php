@@ -15,7 +15,7 @@ use App\Entity\Domaine;
 use App\Form\DomaineType;
 
 /**
- * @Route("/domaine")
+ * @Route("/gestion/domaine")
  */
 class DomaineController extends AbstractController
 {

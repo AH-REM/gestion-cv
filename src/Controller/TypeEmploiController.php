@@ -15,7 +15,7 @@ use App\Entity\TypeEmploi;
 use App\Form\TypeEmploiType;
 
 /**
- * @Route("/emploi")
+ * @Route("/gestion/emploi")
  */
 class TypeEmploiController extends AbstractController
 {
@@ -54,7 +54,7 @@ class TypeEmploiController extends AbstractController
     {
         if ($emploi && $emploi->getIntervenants()->count() < 1) {
 
-            // On supprime le domaine
+            // On supprime l'emploi
             $this->manager->remove($emploi);
             $this->manager->flush();
 
