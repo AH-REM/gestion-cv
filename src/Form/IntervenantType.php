@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 use Symfony\Component\Validator\Constraints\File;
 
@@ -131,6 +132,11 @@ class IntervenantType extends AbstractType
                     ])
                 ],
                 'required' => ( $fileName ? false : true )
+            ])
+            ->add('divers', TextareaType::class, [
+                'label' => 'Divers',
+                'attr' => [ 'autocomplete' => 'off' ],
+                'required' => false
             ])
         ;
 
