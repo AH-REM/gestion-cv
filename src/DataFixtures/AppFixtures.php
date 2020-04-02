@@ -105,7 +105,7 @@ class AppFixtures extends Fixture
         $sio->setNiveau($bts)->setLibelle('BTS SIO');
         $manager->persist($sio);
 
-        for ($i = 0; $i < rand(8, 15); $i++) {
+        for ($i = 0; $i < rand(15, 35); $i++) {
             $this->createIntervenant($manager, $sio, $formateur, [$info, $secu, $en, $eco, $fr]);
         }
 
@@ -115,7 +115,7 @@ class AppFixtures extends Fixture
         $muc->setNiveau($bts)->setLibelle('BTS MUC');
         $manager->persist($muc);
 
-        for ($i = 0; $i < rand(8, 15); $i++) {
+        for ($i = 0; $i < rand(15, 35); $i++) {
             $this->createIntervenant($manager, $muc, $formateur, [$en, $eco, $fr, $droit]);
         }
 
@@ -125,7 +125,7 @@ class AppFixtures extends Fixture
         $mei->setNiveau($bac)->setLibelle('BAC MEI');
         $manager->persist($mei);
 
-        for ($i = 0; $i < rand(8, 15); $i++) {
+        for ($i = 0; $i < rand(15, 35); $i++) {
             $this->createIntervenant($manager, $mei, $formateur, [$en, $fr, $main, $info]);
         }
 
@@ -135,7 +135,7 @@ class AppFixtures extends Fixture
         $b->setNiveau($bac)->setLibelle('BAC Botanique');
         $manager->persist($b);
 
-        for ($i = 0; $i < rand(8, 15); $i++) {
+        for ($i = 0; $i < rand(15, 35); $i++) {
             $this->createIntervenant($manager, $b, $formateur, [$bota, $fr, $en]);
         }
 
@@ -145,7 +145,7 @@ class AppFixtures extends Fixture
         $ing->setNiveau($master)->setLibelle('Master Ingénieur Informatique');
         $manager->persist($ing);
 
-        for ($i = 0; $i < rand(8, 15); $i++) {
+        for ($i = 0; $i < rand(15, 35); $i++) {
             $this->createIntervenant($manager, $ing, $formateur, [$info, $fr, $en, $main, $eco, $droit]);
         }
 
