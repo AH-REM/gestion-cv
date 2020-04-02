@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
 
-    cv_directory: '%kernel.project_dir%/public/cv'
+    cv_directory: '%kernel.project_dir%/Ressources/cv'
 
 services:
     # default configuration for services in *this* file
