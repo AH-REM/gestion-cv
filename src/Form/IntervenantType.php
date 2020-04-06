@@ -127,11 +127,11 @@ class IntervenantType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '5120k',
                         'mimeTypes' => [
                             'application/pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Veuillez envoyer un document PDF valide.',
                     ])
                 ],
                 'required' => ( $fileName ? false : true )
