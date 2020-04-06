@@ -4,29 +4,135 @@
 
     <div class="container">
 
-        <h1>{{ intervenant.nom }} {{ intervenant.prenom }}</h1>
+        <div class="my-4">
 
-        <p>Ajouté le : {{ intervenant.createdAt|date("d/m/Y") }}</p>
+            <h1>{{ intervenant.nom }} {{ intervenant.prenom }}</h1>
 
-        <p>Adresse : {{ intervenant.adresse }}</p>
-        <p>Code postal : {{ intervenant.cp }}</p>
-        <p>Telephone Fixe : {{ intervenant.telFixe }}</p>
-        <p>Telephone Portable : {{ intervenant.telPortable }}</p>
-        <p>Mail : {{ intervenant.mail }}</p>
-        <p>Divers : {{ intervenant.divers }}</p>
+            <div class="float-right" style="margin-top: -10px;">
+                <div class="font-weight-light">
+                    Mis à jour le :
+                    <span class="badge badge-secondary" style="font-size: 1em">{{ intervenant.dateMajCv|date("d/m/Y") }}</span>
+                </div>
+            </div>
 
-        <p>Diplome : {{ intervenant.diplome }}</p>
-        <p>Emploi : {{ intervenant.emploi }}</p>
-        <p>Domaines : {# {{ intervenant.domaines }} #}</p>
+            <hr class="my-4">
 
-        <p>Date de mise à jour du cv : {{ intervenant.dateMajCv|date("d/m/Y") }}</p>
+        </div>
 
-        <a class="btn btn-secondary"
-           href="{{ path('show_cv', { file: intervenant.nameCv }) }}"
-           role="button">
-           Afficher CV
-        </a>
+        <h2>Informations</h2>
+
+        <div class="float-right" style="margin-top: -35px;">
+
+            <a class="btn btn-info"
+               href="{{ path('show_cv', { file: intervenant.nameCv }) }}"
+               role="button">
+               Afficher CV
+            </a>
+
+            {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-warning"
+                   href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
+                   role="button">
+                   Modifier
+                </a>
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-toggle="modal" data-target="#modal-delete"
+                    data-libelle="{{ intervenant.nom }} {{ intervenant.prenom }}"
+                    data-pathdel="{{ path('delete_intervenant', { id: intervenant.id }) }}">
+                    Supprimer
+                </button>
+            {% endif %}
+
+        </div>
+
+        <div class="jumbotron py-2 mt-3">
+
+            {% if intervenant.mail is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Mail :</p>
+                    <p class="m-0">{{ intervenant.mail }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.adresse is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Adresse :</p>
+                    <p class="m-0">{{ intervenant.adresse }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.cp is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Code postal :</p>
+                    <p class="m-0">{{ intervenant.cp }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.telFixe is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Telephone Fixe :</p>
+                    <p class="m-0">{{ intervenant.telFixe }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.telPortable is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Telephone Portable :</p>
+                    <p class="m-0">{{ intervenant.telPortable }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.emploi is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Emploi :</p>
+                    <p class="m-0">{{ intervenant.emploi }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.diplome is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Diplome :</p>
+                    <p class="m-0">{{ intervenant.diplome }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.domaines is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Domaines :</p>
+                    <p class="m-0">{{ intervenant.domaines|join(', ', ' et ') }}</p>
+                </div>
+            {% endif %}
+
+            {% if intervenant.divers is not null %}
+                <div class="my-3">
+                    <p class="font-weight-bold m-0">Divers :</p>
+                    <p class="m-0">{{ intervenant.divers }}</p>
+                </div>
+            {% endif %}
+
+            <div class="my-3">
+                <p class="font-weight-bold m-0">Ajouté le :</p>
+                <p class="m-0">{{ intervenant.createdAt|date("d/m/Y") }}</p>
+            </div>
+
+        </div>
+
+        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+
+            {# Modal confirmation #}
+            {% include 'modules/del_confirm.html.twig' %}
+
+        {% endif %}
 
     </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="{{ asset('js/modal-delete.js') }}"></script>
 
 {% endblock %}

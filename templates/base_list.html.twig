@@ -51,7 +51,7 @@
                                             Aucune
                                         {% else %}
 
-                                            <a class="btn btn-info"
+                                            <a class="btn btn-warning"
                                                href="{{ path('edit_' ~ name, { id: data.id }) }}"
                                                role="button">
                                                Modifier
@@ -61,7 +61,7 @@
 
                                                 <button
                                                     type="button"
-                                                    class="btn btn-warning"
+                                                    class="btn btn-danger"
                                                     data-toggle="modal" data-target="#modal-delete"
                                                     data-libelle="
                                                         {% if data.libelle is defined %}

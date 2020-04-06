@@ -34,7 +34,7 @@
                         </a>
 
                         {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
-                            <a class="btn btn-secondary"
+                            <a class="btn btn-warning"
                                href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
                                role="button">
                                Modifier
@@ -42,7 +42,7 @@
 
                             <button
                                 type="button"
-                                class="btn btn-warning"
+                                class="btn btn-danger"
                                 data-toggle="modal" data-target="#modal-delete"
                                 data-libelle="{{ intervenant.nom }} {{ intervenant.prenom }}"
                                 data-pathdel="{{ path('delete_intervenant', { id: intervenant.id }) }}">
