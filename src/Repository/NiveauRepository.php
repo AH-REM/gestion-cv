@@ -26,7 +26,7 @@ class NiveauRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('n')
-            ->addSelect('n.id', 'n.libelle', 'n.num as numero', 'size(n.diplomes) as size')
+            ->addSelect('n.id', 'n.libelle', 'n.libelle as Titre_du_niveau', 'n.num as Numero_du_niveau', 'size(n.diplomes) as size')
             ->groupBy('n')
             ->orderBy('n.num', 'ASC')
             ->getQuery()

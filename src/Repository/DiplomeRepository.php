@@ -26,7 +26,7 @@ class DiplomeRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('d')
-            ->addSelect('d.id', 'd.libelle', 'n.num as niveau', 'size(d.intervenants) as size')
+            ->addSelect('d.id', 'd.libelle', 'd.libelle as Titre_du_diplome', 'n.num as Niveau_du_diplome', 'size(d.intervenants) as size')
             ->innerJoin('d.niveau', 'n')
             ->groupBy('d')
             ->orderBy('d.libelle', 'ASC')

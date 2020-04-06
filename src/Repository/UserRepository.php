@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Role;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
@@ -26,7 +28,8 @@ class UserRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('u')
-            ->addSelect('u.id', 'u.username')
+            ->addSelect('u.id', 'u.username', 'u.username as Identifiant', 'r.libelle as Role')
+            ->leftJoin('u.role', 'r')
             ->orderBy('u.username', 'ASC')
             ->getQuery()
         ;

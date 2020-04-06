@@ -35,7 +35,7 @@ class TypeEmploiRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('e')
-            ->addSelect('e.id', 'e.libelle', 'SIZE(e.intervenants) as size')
+            ->addSelect('e.id', 'e.libelle', 'e.libelle as Titre_de_l1emploi', 'SIZE(e.intervenants) as size')
             ->groupBy('e')
             ->orderBy('e.libelle', 'ASC')
             ->getQuery()

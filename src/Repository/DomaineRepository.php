@@ -26,7 +26,7 @@ class DomaineRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('d')
-            ->addSelect('d.id', 'd.libelle', 'size(d.intervenants) as size')
+            ->addSelect('d.id', 'd.libelle', 'd.libelle as Titre_du_domaine', 'size(d.intervenants) as size')
             ->groupBy('d')
             ->orderBy('d.libelle', 'ASC')
             ->getQuery()
