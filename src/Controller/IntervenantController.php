@@ -141,7 +141,7 @@ class IntervenantController extends AbstractController
                 else {
 
                     $intervenant->setNameCv($fileName)
-                                ->setDateMajCv(new \DateTime());
+                                ->setDateMajCv(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
 
                 }
 
@@ -152,7 +152,7 @@ class IntervenantController extends AbstractController
                 $emploi = $intervenant->getEmploi();
 
                 if (!$intervenant->getCreatedAt()) {
-                    $intervenant->setCreatedAt(new \DateTime());
+                    $intervenant->setCreatedAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
                 }
 
                 $manager->persist($intervenant);
