@@ -40,5 +40,5 @@ security:
     access_control:
         - { path: ^/login }
         - { path: ^/gestion/admin, roles: ROLE_ADMIN }
-        - { path: ^/gestion, roles: ROLE_GESTION }
+        - { path: ^/gestion, roles: [ ROLE_GESTION, ROLE_ADMIN ] }
         - { path: ^/, roles: ROLE_USER }

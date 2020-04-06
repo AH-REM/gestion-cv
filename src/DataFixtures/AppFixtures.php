@@ -7,6 +7,8 @@ use App\Entity\Niveau;
 use App\Entity\Diplome;
 use App\Entity\TypeEmploi;
 use App\Entity\Domaine;
+use App\Entity\Role;
+use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -44,6 +46,21 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+
+        // Role
+        $admin = new Role();
+        $admin->setName('ROLE_ADMIN')->setLibelle('Administrateur');
+        $manager->persist($admin);
+
+        $gestion = new Role();
+        $gestion->setName('ROLE_GESTION')->setLibelle('Gestionnaire');
+        $manager->persist($gestion);
+
+        // User
+        $user = new User();
+        $hash = '$2y$10$t4AhfrV7OZMYOei8y1ozZOlDxa.gaV4QPqy3EqU6MwiEDU0jOUX4C';
+        $user->setUsername('admin')->setPassword($hash)->setRole($admin);
+        $manager->persist($user);
 
         // Emploi
         $formateur = new TypeEmploi();

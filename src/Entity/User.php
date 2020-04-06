@@ -51,6 +51,11 @@ class User implements UserInterface
      */
     private $confirm_password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
+     */
+    private $role;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,11 +97,32 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(?Role $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
     public function eraseCredentials() {}
 
     public function getSalt() {}
 
     public function getRoles() {
-        return ['ROLE_USER'];
+
+        $roles = array('ROLE_USER');
+
+        if ($this->getRole()) {
+            array_push($roles, $this->getRole()->getName());
+        }
+
+        return $roles;
+
     }
+
 }
