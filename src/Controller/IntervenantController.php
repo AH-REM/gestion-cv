@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormError;
 
@@ -54,6 +55,21 @@ class IntervenantController extends AbstractController
     }
 
     /**
+     * @Route("/delete/{id}", name="delete_intervenant")
+     */
+    public function delete(Intervenant $intervenant = null, EntityManagerInterface $manager, Request $request)
+    {
+        if ($intervenant) {
+
+            // On supprime le diplome
+            $manager->remove($intervenant);
+            $manager->flush();
+
+        }
+        return $this->redirectToRoute('list_intervenant');
+    }
+
+    /**
      * @Route("/search", name="search_intervenant")
      */
     public function search(Request $request, IntervenantRepository $repo, Paginator $paginator) {
@@ -75,6 +91,7 @@ class IntervenantController extends AbstractController
     }
 
     /**
+     * @IsGranted({"ROLE_ADMIN", "ROLE_GESTION"})
      * @Route("/edit/{id}", name="edit_intervenant")
      * @Route("/new", name="new_intervenant")
      */

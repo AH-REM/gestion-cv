@@ -42,7 +42,7 @@ class UserController extends AbstractController
         );
 
         return $this->render('base_list.html.twig', [
-            'title' => 'Les users',
+            'title' => 'Les utilisateurs',
             'collection' => $collection,
             'name' => $this->name,
         ]);
@@ -53,7 +53,14 @@ class UserController extends AbstractController
      */
     public function delete(User $user = null, Request $request)
     {
-        // ?
+        if ($user && $user->getUsername() != $this->getUser()->getUsername()) {
+
+            // On supprime l'utilisateur
+            $this->manager->remove($user);
+            $this->manager->flush();
+
+        }
+        return $this->redirectToRoute('list_user');
     }
 
     /**
@@ -75,7 +82,12 @@ class UserController extends AbstractController
             else $user = new User();
 
         }
-        else $user->setPassword("");
+        else {
+            // Si c'est le même utilisateur qui est connecté
+            if ($user->getUsername() == $this->getUser()->getUsername()) return $this->redirectToRoute('list_user');
+
+            $user->setPassword("");
+        }
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -95,6 +107,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('base_form.html.twig', [
+            'title' => 'd\'un utilisateur',
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);
