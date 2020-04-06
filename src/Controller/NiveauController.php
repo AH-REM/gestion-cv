@@ -97,6 +97,7 @@ class NiveauController extends AbstractController
         }
 
         return $this->render('base_form.html.twig', [
+            'title' => 'd\'un niveau',
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);

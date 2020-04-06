@@ -18,13 +18,13 @@ class DiplomeType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class, [
-                'label' => 'Libelle',
+                'label' => 'Titre du domaine',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true,
             ])
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
-                'label' => 'Niveau',
+                'label' => 'Niveau du diplome',
                 'placeholder' => 'Choisissez un niveau',
                 'choice_attr' => function(Niveau $niveau) {
                     return $niveau ? [ 'niveau' => $niveau->getNum() ] : [];

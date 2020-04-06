@@ -66,7 +66,7 @@ class IntervenantSearchType extends AbstractType
             ->add('domaines', EntityType::class, [
                 'class' => Domaine::class,
                 'label' => false,
-                'placeholder' => 'Choisissez un ou plusieurs dommaines',
+                'placeholder' => 'Choisissez un ou plusieurs domaines',
                 'attr' => ['class' => 'select2-control-domaines'],
                 'multiple' => true,
                 'required' => false,

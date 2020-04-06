@@ -97,6 +97,7 @@ class DomaineController extends AbstractController
         }
 
         return $this->render('base_form.html.twig', [
+            'title' => 'd\'un domaine',
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);

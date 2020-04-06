@@ -110,7 +110,7 @@ class IntervenantType extends AbstractType
             ])
             ->add('new_domaines', ChoiceType::class, [
                 'label' => 'Domaines',
-                'placeholder' => 'Choisissez un ou plusieurs dommaines',
+                'placeholder' => 'Choisissez un ou plusieurs domaines',
                 'choices' => array_combine($domaines_array, $domaines_array),
                 'data' => $data_domaine,
                 'attr' => [ 'class' => 'select2-control-domaines' ],
@@ -121,7 +121,10 @@ class IntervenantType extends AbstractType
             ->add('file', FileType::class, [
                 'label' => 'CV',
                 'mapped' => false,
-                'attr' => [ 'placeholder' => ( $fileName ? $fileName : 'Choisissez un document PDF' ) ],
+                'attr' => [
+                    'lang' => 'fr',
+                    'placeholder' => ( $fileName ? $fileName : 'Choisissez un document PDF' )
+                ],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

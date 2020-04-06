@@ -15,7 +15,7 @@ class TypeEmploiType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class, [
-                'label' => 'Emploi',
+                'label' => 'Titre de l\'emploi',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true,
             ])

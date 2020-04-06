@@ -97,6 +97,7 @@ class DiplomeController extends AbstractController
         }
 
         return $this->render('base_form.html.twig', [
+            'title' => 'd\'un diplome',
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);

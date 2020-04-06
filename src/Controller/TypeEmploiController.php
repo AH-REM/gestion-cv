@@ -97,6 +97,7 @@ class TypeEmploiController extends AbstractController
         }
 
         return $this->render('base_form.html.twig', [
+            'title' => 'd\'un emploi',
             'form' => $form->createView(),
             'editMode' => $editMode
         ]);

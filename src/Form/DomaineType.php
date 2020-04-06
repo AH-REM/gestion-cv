@@ -15,7 +15,7 @@ class DomaineType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class, [
-                'label' => 'Domaine',
+                'label' => 'Titre du domaine',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true,
             ])

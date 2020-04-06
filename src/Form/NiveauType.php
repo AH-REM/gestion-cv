@@ -17,6 +17,7 @@ class NiveauType extends AbstractType
         $builder
             ->add('num', NumberType::class, [
                 'label' => 'Numéro',
+                'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true,
             ])
             ->add('libelle', TextType::class, [
