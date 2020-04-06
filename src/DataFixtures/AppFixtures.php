@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
 
         // User
         $user = new User();
-        $hash = '$2y$10$t4AhfrV7OZMYOei8y1ozZOlDxa.gaV4QPqy3EqU6MwiEDU0jOUX4C';
+        $hash = '$2y$10$t4AhfrV7OZMYOei8y1ozZOlDxa.gaV4QPqy3EqU6MwiEDU0jOUX4C'; // admin
         $user->setUsername('admin')->setPassword($hash)->setRole($admin);
         $manager->persist($user);
 
