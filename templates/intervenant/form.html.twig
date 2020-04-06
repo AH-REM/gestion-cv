@@ -5,156 +5,179 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-form.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/form-intervenant.css') }}" />
 
 {% endblock %}
 
 {% block body %}
 
-    <div class="container">
+    <div class="jumbotron mb-0">
 
-        {% if editMode %}
-            <h1>FORMULAIRE DE MODIFICATION D'UN CV EXISTANT</h1>
-        {% else %}
-            <h1>FORMULAIRE D’ENREGISTREMENT D’UN CV</h1>
-        {% endif %}
+        <div class="container">
 
-        <p>Veuillez, s’il vous plait, compléter les différents champs ainsi que télécharger le CV correspondant au format Pdf puis valider.</p>
+            <div class="my-0">
 
-    	{{ form_start(form) }}
+                <h1>
+                    {% if editMode %}
+                        Modification d'un intervenant
+                    {% else %}
+                        Enregistrement d'un nouvel intervenant
+                    {% endif %}
+                </h1>
 
-            <div class="form-row">
+                <p>Veuillez, s’il vous plait, compléter les différents champs ainsi qu'insérer le CV correspondant au format PDF puis valider.</p>
 
-                <div class="form-group col-md-3">
+                <hr class="my-4">
 
-                    {{ form_row(form.nom) }}
+            </div>
 
-                </div>
+        	{{ form_start(form) }}
 
-                <div class="form-group col-md-3">
+                <div class="form-row">
 
-                    {{ form_row(form.prenom) }}
+                    <div class="form-group col-md-3">
 
-                </div>
+                        {{ form_row(form.nom) }}
 
-                <div class="form-group col-md-6">
-                    {{ form_label(form.mail) }}
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-envelope"></i>
-                            </div>
-                        </div>
-                        {{ form_widget(form.mail) }}
                     </div>
-               </div>
 
-            </div>
+                    <div class="form-group col-md-3">
 
-            <div class="form-row">
+                        {{ form_row(form.prenom) }}
 
-                <div class="form-group col-md-8">
+                    </div>
 
-                    {{ form_row(form.adresse) }}
-
-                </div>
-
-                <div class="form-group col-md-4">
-
-                    {{ form_row(form.cp) }}
-
-                </div>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group col-md-6">
-
-                    {{ form_label(form.telFixe) }}
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-phone"></i>
+                    <div class="form-group col-md-6">
+                        {{ form_label(form.mail) }}
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img class="icon" src="{{ asset('icon/email.png') }}" alt="">
+                                </div>
                             </div>
+                            {{ form_widget(form.mail) }}
                         </div>
-                        {{ form_widget(form.telFixe) }}
+                   </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-8">
+
+                        {{ form_row(form.adresse) }}
+
+                    </div>
+
+                    <div class="form-group col-md-4">
+
+                        {{ form_row(form.cp) }}
+
                     </div>
 
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-row">
 
-                    {{ form_label(form.telPortable) }}
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-mobile"></i>
+                    <div class="form-group col-md-6">
+
+                        {{ form_label(form.telFixe) }}
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img class="icon" src="{{ asset('icon/phone.png') }}" alt="">
+                                </div>
                             </div>
+                            {{ form_widget(form.telFixe) }}
                         </div>
-                        {{ form_widget(form.telPortable) }}
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+
+                        {{ form_label(form.telPortable) }}
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <img class="icon" src="{{ asset('icon/smartphone.png') }}" alt="">
+                                </div>
+                            </div>
+                            {{ form_widget(form.telPortable) }}
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div class="form-row">
 
-            <div class="form-row">
+                    <div class="form-group col-md">
 
-                <div class="form-group col-md">
+                         {{ form_row(form.emploi) }}
 
-                     {{ form_row(form.emploi) }}
-
-                </div>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group col-md-8">
-
-                    {{ form_row(form.diplome) }}
+                    </div>
 
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-row">
 
-                    {{ form_row(form.niveau) }}
+                    <div class="form-group col-md-8">
 
-                </div>
+                        {{ form_row(form.diplome) }}
 
-            </div>
+                    </div>
 
-            <div class="form-row">
+                    <div class="form-group col-md-4">
 
-                <div class="form-group col-md">
+                        {{ form_row(form.niveau) }}
 
-                    {{ form_row(form.new_domaines) }}
-
-                </div>
-
-            </div>
-
-            <div class="form-row">
-
-                <div class="form-group col-md">
-
-                    {{ form_row(form.file) }}
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="form-row">
 
-    		<button class="btn btn-primary" type="submit">
+                    <div class="form-group col-md">
 
-                {% if editMode %}
-                    Modifier
-                {% else %}
-                    Enregistrer
-                {% endif %}
+                        {{ form_row(form.new_domaines) }}
 
-            </button>
+                    </div>
 
-    	{{ form_end(form) }}
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md">
+
+                        {{ form_row(form.file) }}
+
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md">
+
+                         {{ form_row(form.divers) }}
+
+                    </div>
+
+                </div>
+
+        		<button class="btn btn-primary" type="submit">
+
+                    {% if editMode %}
+                        Modifier
+                    {% else %}
+                        Enregistrer
+                    {% endif %}
+
+                </button>
+
+        	{{ form_end(form) }}
+
+        </div>
 
     </div>
 

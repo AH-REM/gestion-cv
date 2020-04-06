@@ -2,80 +2,101 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container-fluid">
 
-        <h1>{{ title }}</h1>
+        <div class="row justify-content-md-center">
+            <div class="col-10">
 
-        <a class="btn btn-primary" href="{{ path('new_' ~ name) }}" role="button">Ajouter</a>
+                <div class="my-4">
+                    <h1>{{ title }}</h1>
 
-        {% if collection is empty %}
-            Aucune donnée
-        {% else %}
+                    <div class="float-right" style="margin-top: -30px;">
+                        <a class="btn btn-primary" href="{{ path('new_' ~ name) }}" role="button">Ajouter</a>
+                    </div>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        {% for key in collection[0]|keys %}
-                            {% if key != 0 or key != 'size' %}
-                                <th scope="col">{{ key }}</th>
-                            {% endif %}
-                        {% endfor %}
-                        <th scope="col">actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+                    <hr class="my-4">
 
-                    {% for data in collection %}
+                </div>
 
-                        <tr>
-                            {% for key, intitule in data %}
-                                {% if key != 0 or key != 'size' %}
-                                    <td>{{ intitule }}</td>
-                                {% endif %}
-                            {% endfor %}
-                            <td>
+                {% if collection is empty %}
+                    Aucune donnée
+                {% else %}
 
-                                <a class="btn btn-info"
-                                   href="{{ path('edit_' ~ name, { id: data.id }) }}"
-                                   role="button">
-                                   Modifier
-                                </a>
+                    {% set banArr = ['id', 'libelle', 'username', 'size'] %}
 
-                                {% if data.size is not defined or data.size < 1 %}
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                {% for key, item in collection[0] %}
+                                    {% if key not in banArr %}
+                                        <th scope="col">{{ key|replace({'_': " ", '1': "'"}) }}</th>
+                                    {% endif %}
+                                {% endfor %}
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-warning"
-                                        data-toggle="modal" data-target="#modal-delete"
-                                        data-libelle="
-                                            {% if data.libelle is defined %}
-                                                {{ data.libelle }}
-                                            {% elseif data.username is defined %}
-                                                {{ data.username }}
+                            {% for data in collection %}
+
+                                <tr>
+                                    {% for key, intitule in data %}
+                                        {% if key not in banArr %}
+                                            <td>{{ intitule }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>
+
+                                        {% if data.username is defined and data.username == app.user.username %}
+                                            Aucune
+                                        {% else %}
+
+                                            <a class="btn btn-info"
+                                               href="{{ path('edit_' ~ name, { id: data.id }) }}"
+                                               role="button">
+                                               Modifier
+                                            </a>
+
+                                            {% if data.size is not defined or data.size < 1 %}
+
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-warning"
+                                                    data-toggle="modal" data-target="#modal-delete"
+                                                    data-libelle="
+                                                        {% if data.libelle is defined %}
+                                                            {{ data.libelle }}
+                                                        {% elseif data.username is defined %}
+                                                            {{ data.username }}
+                                                        {% endif %}
+                                                    "
+                                                    data-pathdel="{{ path('delete_' ~ name, { id: data.id }) }}">
+                                                    Supprimer
+                                                </button>
+
                                             {% endif %}
-                                        "
-                                        data-pathdel="{{ path('delete_' ~ name, { id: data.id }) }}">
-                                        Supprimer
-                                    </button>
 
-                                {% endif %}
+                                        {% endif %}
 
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                    {% endfor %}
+                            {% endfor %}
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
 
-            <div class="pagination">
-                {{ knp_pagination_render(collection) }}
+                    <div class="pagination">
+                        {{ knp_pagination_render(collection) }}
+                    </div>
+
+                    {# Modal confirmation #}
+                    {% include 'modules/del_confirm.html.twig' %}
+
+                {% endif %}
+
             </div>
-
-            {# Modal confirmation #}
-            {% include 'modules/del_confirm.html.twig' %}
-
-        {% endif %}
+        </div>
 
     </div>
 

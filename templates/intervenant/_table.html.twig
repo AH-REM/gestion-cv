@@ -4,7 +4,7 @@
 
 {% else %}
 
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col">Nom</th>
@@ -12,7 +12,7 @@
                 <th scope="col">Emploi</th>
                 <th scope="col">Diplome</th>
                 <th scope="col">Domaines</th>
-                <th scope="col"></th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -33,11 +33,22 @@
                            Afficher
                         </a>
 
-                        <a class="btn btn-secondary"
-                           href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
-                           role="button">
-                           Modifier
-                        </a>
+                        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-secondary"
+                               href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
+                               role="button">
+                               Modifier
+                            </a>
+
+                            <button
+                                type="button"
+                                class="btn btn-warning"
+                                data-toggle="modal" data-target="#modal-delete"
+                                data-libelle="{{ intervenant.nom }} {{ intervenant.prenom }}"
+                                data-pathdel="{{ path('delete_intervenant', { id: intervenant.id }) }}">
+                                Supprimer
+                            </button>
+                        {% endif %}
 
                     </td>
 

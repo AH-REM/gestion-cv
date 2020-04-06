@@ -3,29 +3,36 @@
 {% block body %}
 
     <div class="container">
+        <div class="my-5">
+            <div class="jumbotron">
 
-        {% if editMode %}
-            <h1>Modification</h1>
-        {% else %}
-            <h1>Ajout</h1>
-        {% endif %}
+                <h1 class="mb-4">
+                    {% if editMode %}
+                        Modification
+                    {% else %}
+                        Ajout
+                    {% endif %}
+                    {{ title }}
+                </h1>
 
-    	{{ form_start(form) }}
+                {{ form_start(form) }}
 
-            {{ form_widget(form) }}
+                    {{ form_widget(form) }}
 
-            <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary my-2" type="submit">
 
-                {% if editMode %}
-                    Modifier
-                {% else %}
-                    Enregistrer
-                {% endif %}
+                        {% if editMode %}
+                            Modifier
+                        {% else %}
+                            Enregistrer
+                        {% endif %}
 
-            </button>
+                    </button>
 
-    	{{ form_end(form) }}
+                {{ form_end(form) }}
 
+            </div>
+        </div>
     </div>
 
 {% endblock %}

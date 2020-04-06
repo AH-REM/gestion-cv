@@ -3,10 +3,74 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
         {% block css %}{% endblock %}
-        <title>CV Greta</title>
+        <title>Application Gestion CV</title>
     </head>
     <body>
+
+        <header>
+
+            {% set route = app.request.get('_route') %}
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand">Application Gestion CV</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mr-auto">
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="nav-item  {{ 'list_intervenant' in route ? 'active' }}">
+                                <a class="nav-link" href="{{ path('list_intervenant') }}">Intervenants</a>
+                            </li>
+                            <li class="nav-item  {{ 'search_intervenant' in route ? 'active' }}">
+                                <a class="nav-link" href="{{ path('search_intervenant') }}">Recherche avancé</a>
+                            </li>
+                            {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item dropdown
+                                    {% if route starts with 'list_' and route != 'list_intervenant' and route != 'list_user' %}
+                                        active
+                                    {% endif %}
+                                ">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarGestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Gestion
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarGestion">
+                                        <a class="dropdown-item {{ 'list_domaine' in route ? 'active' }}" href="{{ path('list_domaine') }}">Domaine</a>
+                                        <a class="dropdown-item {{ 'list_emploi' in route ? 'active' }}" href="{{ path('list_emploi') }}">Emploi</a>
+                                        <a class="dropdown-item {{ 'list_diplome' in route ? 'active' }}" href="{{ path('list_diplome') }}">Diplome</a>
+                                        <a class="dropdown-item {{ 'list_niveau' in route ? 'active' }}" href="{{ path('list_niveau') }}">Niveau</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item dropdown
+                                    {% if route == 'list_user' %}
+                                        active
+                                    {% endif %}
+                                ">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarAdmin">
+                                        <a class="dropdown-item {{ 'list_user' in route ? 'active' }}" href="{{ path('list_user') }}">Utilisateur</a>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                    <span class="navbar-text p-0">
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('security_logout') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Déconnexion</a>
+                        {% else %}
+                            <a href="{{ path('security_login') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Connexion</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </nav>
+
+        </header>
 
         {% block body %}{% endblock %}
 

@@ -10,10 +10,12 @@
 
 {% block body %}
 
-    <div class="jumbotron">
+    <div class="jumbotron p-4">
         <div class="container">
 
-            <h1>RECHERCHE INTERVENANTS</h1>
+            <h1>Recherche des intervenants</h1>
+
+            <hr class="my-4">
 
             {{ form_start(form) }}
 
@@ -72,17 +74,23 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
 
-        {% include 'intervenant/_table.html.twig' %}
+        <div class="row justify-content-md-center">
+            <div class="col-10">
 
-        {% if intervenants %}
+                {% include 'intervenant/_table.html.twig' %}
 
-            <div class="pagination">
-                {{ knp_pagination_render(intervenants) }}
+                {% if intervenants %}
+
+                    <div class="pagination justify-content-center">
+                        {{ knp_pagination_render(intervenants) }}
+                    </div>
+
+                {% endif %}
+
             </div>
-
-        {% endif %}
+        </div>
 
     </div>
 
@@ -93,5 +101,6 @@
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/intervenant-search-form.js') }}"></script>
+    <script src="{{ asset('js/modal-delete.js') }}"></script>
 
 {% endblock %}
