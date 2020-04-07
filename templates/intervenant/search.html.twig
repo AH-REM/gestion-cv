@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-form.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/list-intervenant.css') }}" />
 
 {% endblock %}
 
@@ -81,11 +82,18 @@
 
                 {% include 'intervenant/_table.html.twig' %}
 
-                {% if intervenants %}
+                {% if intervenants is not empty %}
 
                     <div class="pagination justify-content-center">
                         {{ knp_pagination_render(intervenants) }}
                     </div>
+
+                {% endif %}
+                
+                {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+
+                    {# Modal confirmation #}
+                    {% include 'modules/del_confirm.html.twig' %}
 
                 {% endif %}
 
@@ -98,9 +106,9 @@
 
 {% block js %}
 
-    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('js/intervenant-search-form.js') }}"></script>
     <script src="{{ asset('js/modal-delete.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
 {% endblock %}

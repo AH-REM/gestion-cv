@@ -1,0 +1,36 @@
+.btn-dropdown  {
+    display: none;
+}
+
+@media screen and (max-width: 1520px) {
+    .btn-hidden {
+        display: none;
+    }
+
+    .btn-dropdown  {
+        display: block;
+    }
+}
+
+.btn-dropdown .dropdown-menu .show:hover {
+    color: #fff;
+    background-color: #17a2b8;
+}
+
+.btn-dropdown .dropdown-menu .edit:hover {
+    color: #212529;
+    background-color: #ffc107;
+}
+
+.btn-dropdown .dropdown-menu .delete:hover {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.btn-dropdown .dropdown-menu .dropdown-item:hover {
+    opacity: 0.95;
+}
+
+.dropdown-menu {
+    left: -12px !important;
+}

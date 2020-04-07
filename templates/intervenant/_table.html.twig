@@ -1,6 +1,6 @@
 {% if intervenants is empty %}
 
-    <p>Aucun intervenant</p>
+    <p class="m-5 lead text-center">Aucun intervenant trouvé..</p>
 
 {% else %}
 
@@ -27,14 +27,18 @@
                     <td>{{ intervenant.domaines|join(', ')[:50] ~ '...' }}</td>
                     <td>
 
-                        <a class="btn btn-info"
+                        <a class="btn btn-info
+                            {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                                btn-hidden
+                            {% endif %}
+                        "
                            href="{{ path('show_intervenant', { id: intervenant.id }) }}"
                            role="button">
                            Afficher
                         </a>
 
                         {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
-                            <a class="btn btn-warning"
+                            <a class="btn btn-warning btn-hidden"
                                href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
                                role="button">
                                Modifier
@@ -42,12 +46,32 @@
 
                             <button
                                 type="button"
-                                class="btn btn-danger"
+                                class="btn btn-danger btn-hidden"
                                 data-toggle="modal" data-target="#modal-delete"
                                 data-libelle="{{ intervenant.nom }} {{ intervenant.prenom }}"
                                 data-pathdel="{{ path('delete_intervenant', { id: intervenant.id }) }}">
                                 Supprimer
                             </button>
+
+                            <div class="btn-group btn-dropdown">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item show" href="{{ path('show_intervenant', { id: intervenant.id }) }}">Afficher</a>
+                                    <a class="dropdown-item edit" href="{{ path('edit_intervenant', { id: intervenant.id }) }}">Modifier</a>
+                                    <div class="dropdown-divider"></div>
+                                    <button
+                                        type="button"
+                                        class="dropdown-item delete"
+                                        data-toggle="modal" data-target="#modal-delete"
+                                        data-libelle="{{ intervenant.nom }} {{ intervenant.prenom }}"
+                                        data-pathdel="{{ path('delete_intervenant', { id: intervenant.id }) }}">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </div>
+
                         {% endif %}
 
                     </td>

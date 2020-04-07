@@ -19,7 +19,9 @@
                 </div>
 
                 {% if collection is empty %}
-                    Aucune donnée
+
+                    <p class="m-5 lead text-center">Aucune donnée trouvée..</p>
+
                 {% else %}
 
                     {% set banArr = ['id', 'libelle', 'username', 'size'] %}
@@ -86,9 +88,13 @@
                         </tbody>
                     </table>
 
-                    <div class="pagination">
-                        {{ knp_pagination_render(collection) }}
-                    </div>
+                    {% if collection is not empty %}
+
+                        <div class="pagination justify-content-center">
+                            {{ knp_pagination_render(collection) }}
+                        </div>
+
+                    {% endif %}
 
                     {# Modal confirmation #}
                     {% include 'modules/del_confirm.html.twig' %}
