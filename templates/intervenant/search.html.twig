@@ -61,7 +61,7 @@
 
                 <div class="form-row my-0">
 
-                    <div class="form-group col-md-9">
+                    <div class="form-group my-0 col-md-9">
 
                         {{ form_row(form.domaines) }}
 
@@ -75,7 +75,7 @@
 
                 </div>
 
-                <small class="form-text text-muted mb-3">* Choisissez une date pour afficher les cv qui n'ont pas était mis à jour avant celle-ci.</small>
+                <small class="form-text text-muted mb-3">* Choisissez une date pour afficher les intervenants avec des cv qui n'ont pas était mis à jour après celle-ci.</small>
 
         		<button class="btn btn-primary" type="submit">Rechercher</button>
 
@@ -86,28 +86,22 @@
 
     <div class="container-fluid">
 
-        <div class="row justify-content-md-center">
-            <div class="col-10">
+        {% include 'intervenant/_table.html.twig' %}
 
-                {% include 'intervenant/_table.html.twig' %}
+        {% if intervenants is not empty %}
 
-                {% if intervenants is not empty %}
-
-                    <div class="pagination justify-content-center">
-                        {{ knp_pagination_render(intervenants) }}
-                    </div>
-
-                {% endif %}
-
-                {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
-
-                    {# Modal confirmation #}
-                    {% include 'modules/del_confirm.html.twig' %}
-
-                {% endif %}
-
+            <div class="pagination justify-content-center">
+                {{ knp_pagination_render(intervenants) }}
             </div>
-        </div>
+
+        {% endif %}
+
+        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+
+            {# Modal confirmation #}
+            {% include 'modules/del_confirm.html.twig' %}
+
+        {% endif %}
 
     </div>
 
@@ -119,6 +113,7 @@
     <script src="{{ asset('js/intervenant-search-form.js') }}"></script>
     <script src="{{ asset('js/modal-delete.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-datepicker.fr.js') }}" charset="UTF-8"></script>
 

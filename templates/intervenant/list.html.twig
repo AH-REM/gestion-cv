@@ -8,43 +8,37 @@
 
 {% block body %}
 
+    <div class="container my-4">
+        <h1>Les intervenants</h1>
+
+        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+            <div class="float-right" style="margin-top: -30px;">
+                <a class="btn btn-primary" href="{{ path('new_intervenant') }}" role="button">Ajouter</a>
+            </div>
+        {% endif %}
+
+        <hr class="my-4">
+
+    </div>
+
     <div class="container-fluid">
 
-        <div class="row justify-content-md-center">
-            <div class="col-10">
+        {% include 'intervenant/_table.html.twig' %}
 
-                <div class="my-4">
-                    <h1>Les intervenants</h1>
+        {% if intervenants is not empty %}
 
-                    {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
-                        <div class="float-right" style="margin-top: -30px;">
-                            <a class="btn btn-primary" href="{{ path('new_intervenant') }}" role="button">Ajouter</a>
-                        </div>
-                    {% endif %}
-
-                    <hr class="my-4">
-
-                </div>
-
-                {% include 'intervenant/_table.html.twig' %}
-
-                {% if intervenants is not empty %}
-
-                    <div class="pagination justify-content-center">
-                        {{ knp_pagination_render(intervenants) }}
-                    </div>
-
-                {% endif %}
-
-                {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
-
-                    {# Modal confirmation #}
-                    {% include 'modules/del_confirm.html.twig' %}
-
-                {% endif %}
-
+            <div class="pagination justify-content-center">
+                {{ knp_pagination_render(intervenants) }}
             </div>
-        </div>
+
+        {% endif %}
+
+        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+
+            {# Modal confirmation #}
+            {% include 'modules/del_confirm.html.twig' %}
+
+        {% endif %}
 
     </div>
 

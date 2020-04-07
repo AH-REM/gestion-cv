@@ -19,7 +19,7 @@
 
             {% for intervenant in intervenants %}
 
-                <tr>
+                <tr title="Mis à jour le : {{ intervenant.dateMajCv|date("d/m/Y") }}">
                     <td>{{ intervenant.nom }}</td>
                     <td>{{ intervenant.prenom }}</td>
                     <td>{{ intervenant.emploi }}</td>
