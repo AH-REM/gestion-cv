@@ -85,7 +85,7 @@ class IntervenantSearch
         return $this->date;
     }
 
-    public function setDate(?DateTime $date)
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 

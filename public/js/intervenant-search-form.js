@@ -27,14 +27,28 @@ $( document ).ready(function() {
 
     $(".select2-control-domaines").select2({
         placeholder: 'Choisissez un ou plusieurs domaines',
+        maximumSelectionLength: 6,
         theme: 'bootstrap4',
     });
 
+    // -------------
+
     $('.datepicker').datepicker({
-        language: 'fr'
+        language: 'fr',
+        format: 'dd/mm/yyyy'
     });
 
-    $('.datepicker').val('');
-    $('.datepicker').attr('placeholder','Choisissez une date *');
+    function update_datepicker() {
+        if (!$('.datepicker').val()) {
+            $('.datepicker').val('');
+            $('.datepicker').attr('placeholder','Choisissez une date *');
+        }
+    }
+
+    update_datepicker();
+
+    $('.datepicker').on('change', function() {
+        update_datepicker();
+    });
 
 });

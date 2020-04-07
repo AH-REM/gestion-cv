@@ -42,13 +42,17 @@ class IntervenantRepository extends ServiceEntityRepository
 
         if ($search->getNom()) $res->andWhere('i.nom LIKE :nom')->setParameter('nom', $search->getNom() . '%');
 
-        if ($search->getPrenom()) $res->andWhere('i.prenom LIKE :prenom')->setParameter('prenom', $search->getPrenom());
+        if ($search->getPrenom()) $res->andWhere('i.prenom LIKE :prenom')->setParameter('prenom', $search->getPrenom() . '%');
 
         if ($search->getEmploi()) $res->andWhere('i.emploi = :emploi')->setParameter('emploi', $search->getEmploi());
 
         if ($search->getDiplome()) $res->andWhere('i.diplome = :diplome')->setParameter('diplome', $search->getDiplome());
         else if ($search->getNiveau()) {
             $res->innerJoin('i.diplome', 'di')->andWhere('di.niveau = :niveau')->setParameter('niveau', $search->getNiveau());
+        }
+
+        if ($search->getDate()) {
+            $res->andWhere('i.dateMajCv <= :date')->setParameter('date', $search->getDate()->format('Y-m-d'));
         }
 
         if ($search->getDomaines()->count() > 0) {

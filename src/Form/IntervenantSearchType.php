@@ -10,6 +10,9 @@ use App\Entity\Domaine;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -74,13 +77,17 @@ class IntervenantSearchType extends AbstractType
             ])
             ->add('date', DateType::class, [
                 'label' => false,
-                'placeholder' => 'Choisissez un ou plusieurs domaines',
                 'widget' => 'single_text',
-                'attr' => ['class' => 'datepicker'],
+                'format' => 'dd/MM/yyyy',
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'class' => 'datepicker'
+                ],
                 'html5' => false,
                 'required' => false,
             ])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
