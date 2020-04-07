@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/select2-bootstrap4.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/select2-form.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/list-intervenant.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}" />
 
 {% endblock %}
 
@@ -58,15 +59,23 @@
 
                 </div>
 
-                <div class="form-row">
+                <div class="form-row my-0">
 
-                    <div class="form-group col-md">
+                    <div class="form-group col-md-9">
 
                         {{ form_row(form.domaines) }}
 
                     </div>
 
+                    <div class="form-group my-0 col-md-3">
+
+                        {{ form_row(form.date) }}
+
+                    </div>
+
                 </div>
+
+                <small class="form-text text-muted mb-3">* Choisissez une date pour afficher les cv qui n'ont pas était mis à jour avant celle-ci.</small>
 
         		<button class="btn btn-primary" type="submit">Rechercher</button>
 
@@ -89,7 +98,7 @@
                     </div>
 
                 {% endif %}
-                
+
                 {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
 
                     {# Modal confirmation #}
@@ -110,5 +119,7 @@
     <script src="{{ asset('js/intervenant-search-form.js') }}"></script>
     <script src="{{ asset('js/modal-delete.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.fr.js') }}" charset="UTF-8"></script>
 
 {% endblock %}

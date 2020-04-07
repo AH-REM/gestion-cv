@@ -12,6 +12,7 @@ class IntervenantSearch
     private $emploi;
     private $niveau;
     private $diplome;
+    private $date;
     private $domaines;
 
     public function __construct()
@@ -75,6 +76,18 @@ class IntervenantSearch
     public function setDiplome(?Diplome $diplome): self
     {
         $this->diplome = $diplome;
+
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate(?DateTime $date)
+    {
+        $this->date = $date;
 
         return $this;
     }

@@ -26,7 +26,7 @@ $( document ).ready(function() {
     });
 
     $(".select2-control-domaines").select2({
-        placeholder: 'Choisissez un ou plusieurs dommaines',
+        placeholder: 'Choisissez un ou plusieurs domaines',
         theme: 'bootstrap4',
     });
 
@@ -35,6 +35,6 @@ $( document ).ready(function() {
     });
 
     $('.datepicker').val('');
-    $('.datepicker').attr("placeholder","Check In");
+    $('.datepicker').attr('placeholder','Choisissez une date *');
 
 });

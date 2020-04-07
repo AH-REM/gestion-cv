@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class IntervenantSearchType extends AbstractType
 {
@@ -69,6 +70,14 @@ class IntervenantSearchType extends AbstractType
                 'placeholder' => 'Choisissez un ou plusieurs domaines',
                 'attr' => ['class' => 'select2-control-domaines'],
                 'multiple' => true,
+                'required' => false,
+            ])
+            ->add('date', DateType::class, [
+                'label' => false,
+                'placeholder' => 'Choisissez un ou plusieurs domaines',
+                'widget' => 'single_text',
+                'attr' => ['class' => 'datepicker'],
+                'html5' => false,
                 'required' => false,
             ])
         ;
