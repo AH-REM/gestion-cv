@@ -31,6 +31,6 @@
     opacity: 0.95;
 }
 
-.dropdown-menu {
+.btn-dropdown .dropdown-menu {
     left: -12px !important;
 }

@@ -30,4 +30,11 @@ $( document ).ready(function() {
         theme: 'bootstrap4',
     });
 
+    $('.datepicker').datepicker({
+        language: 'fr'
+    });
+
+    $('.datepicker').val('');
+    $('.datepicker').attr("placeholder","Check In");
+
 });
