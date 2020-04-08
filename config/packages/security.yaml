@@ -40,5 +40,9 @@ security:
     access_control:
         - { path: ^/login }
         - { path: ^/gestion/admin, roles: ROLE_ADMIN }
-        - { path: ^/gestion, roles: [ ROLE_GESTION, ROLE_ADMIN ] }
+        - { path: ^/gestion, roles: ROLE_GESTION }
         - { path: ^/, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: [ ROLE_USER, ROLE_GESTION ]
+        ROLE_GESTION: ROLE_USER

@@ -33,7 +33,7 @@
 
         {% endif %}
 
-        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_GESTION') %}
 
             {# Modal confirmation #}
             {% include 'modules/del_confirm.html.twig' %}

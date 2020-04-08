@@ -91,7 +91,7 @@ class IntervenantController extends AbstractController
     }
 
     /**
-     * @IsGranted({"ROLE_ADMIN", "ROLE_GESTION"})
+     * @IsGranted("ROLE_GESTION")
      * @Route("/edit/{id}", name="edit_intervenant")
      * @Route("/new", name="new_intervenant")
      */

@@ -115,13 +115,7 @@ class User implements UserInterface
 
     public function getRoles() {
 
-        $roles = array('ROLE_USER');
-
-        if ($this->getRole()) {
-            array_push($roles, $this->getRole()->getName());
-        }
-
-        return $roles;
+        return $this->getRole() ? [ $this->getRole()->getName() ] : [ 'ROLE_USER' ];
 
     }
 

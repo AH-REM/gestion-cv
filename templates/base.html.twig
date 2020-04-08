@@ -26,7 +26,7 @@
                             <li class="nav-item  {{ 'search_intervenant' in route ? 'active' }}">
                                 <a class="nav-link" href="{{ path('search_intervenant') }}">Recherche avancé</a>
                             </li>
-                            {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_GESTION') %}
                                 <li class="nav-item dropdown
                                     {% if route starts with 'list_' and route != 'list_intervenant' and route != 'list_user' %}
                                         active
