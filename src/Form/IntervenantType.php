@@ -241,7 +241,6 @@ class IntervenantType extends AbstractType
         $findLibelle = function ($libelle) use ($domaines) {
             foreach ($domaines as $key => $domaine) {
                 if ($domaine->getLibelle() === $libelle) {
-                    dump($domaine);
                     return $domaine;
                 }
             }
