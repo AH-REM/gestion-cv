@@ -28,6 +28,10 @@ class IntervenantRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         return $this->createQueryBuilder('i')
+            ->addSelect('i', 'e', 'di', 'do')
+            ->innerJoin('i.emploi', 'e')
+            ->innerJoin('i.diplome', 'di')
+            ->innerJoin('i.domaines', 'do')
             ->orderBy('i.nom', 'ASC')
             ->getQuery()
         ;
@@ -38,7 +42,11 @@ class IntervenantRepository extends ServiceEntityRepository
      */
     public function searchIntervenantQuery(IntervenantSearch $search): Query
     {
-        $res = $this->createQueryBuilder('i');
+        $res = $this->createQueryBuilder('i')
+            ->addSelect('i', 'e', 'di', 'do')
+            ->innerJoin('i.emploi', 'e')
+            ->innerJoin('i.diplome', 'di')
+            ->innerJoin('i.domaines', 'do');
 
         if ($search->getNom()) $res->andWhere('i.nom LIKE :nom')->setParameter('nom', $search->getNom() . '%');
 
@@ -48,7 +56,7 @@ class IntervenantRepository extends ServiceEntityRepository
 
         if ($search->getDiplome()) $res->andWhere('i.diplome = :diplome')->setParameter('diplome', $search->getDiplome());
         else if ($search->getNiveau()) {
-            $res->innerJoin('i.diplome', 'di')->andWhere('di.niveau = :niveau')->setParameter('niveau', $search->getNiveau());
+            $res->andWhere('di.niveau = :niveau')->setParameter('niveau', $search->getNiveau());
         }
 
         if ($search->getDate()) {
