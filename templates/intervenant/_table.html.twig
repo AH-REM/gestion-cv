@@ -11,7 +11,7 @@
                 <th scope="col">Prenom</th>
                 <th scope="col">Emploi</th>
                 <th scope="col">Diplome</th>
-                <th scope="col">Domaines</th>
+                <th class="domaine" scope="col">Domaines</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -20,15 +20,15 @@
             {% for intervenant in intervenants %}
 
                 <tr title="Mis à jour le : {{ intervenant.dateMajCv|date("d/m/Y") }}">
-                    <td>{{ intervenant.nom }}</td>
-                    <td>{{ intervenant.prenom }}</td>
-                    <td>{{ intervenant.emploi }}</td>
-                    <td>{{ intervenant.diplome }}</td>
-                    <td>{{ intervenant.domaines|join(', ')[:50] ~ '...' }}</td>
+                    <td class="align-middle">{{ intervenant.nom }}</td>
+                    <td class="align-middle">{{ intervenant.prenom }}</td>
+                    <td class="align-middle">{{ intervenant.emploi }}</td>
+                    <td class="align-middle">{{ intervenant.diplome }}</td>
+                    <td class="align-middle domaine">{{ intervenant.domaines|join(', ', ' et ') }}</td>
                     <td>
 
                         <a class="btn btn-info
-                            {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_GESTION') %}
                                 btn-hidden
                             {% endif %}
                         "
@@ -37,7 +37,7 @@
                            Afficher
                         </a>
 
-                        {% if is_granted('ROLE_GESTION') or is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_GESTION') %}
                             <a class="btn btn-warning btn-hidden"
                                href="{{ path('edit_intervenant', { id: intervenant.id }) }}"
                                role="button">

@@ -16,11 +16,18 @@
     }
 }
 
+@media (max-width: 1200px) {
+    td.domaine, th.domaine {
+        display: none;
+    }
+}
+
 @media (min-width: 992px) {
 
     .container-fluid {
         width: 90% !important;
     }
+
 }
 
 .btn-dropdown .dropdown-menu .show:hover {
