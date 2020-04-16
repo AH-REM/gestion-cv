@@ -18,7 +18,7 @@ class DiplomeType extends AbstractType
     {
         $builder
             ->add('libelle', TextType::class, [
-                'label' => 'Titre du domaine',
+                'label' => 'Titre du diplome',
                 'attr' => [ 'autocomplete' => 'off' ],
                 'required' => true,
             ])
