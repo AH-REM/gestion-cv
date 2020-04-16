@@ -178,7 +178,7 @@ class Intervenant
         return $this;
     }
 
-    public function getTelFixe(): ?int
+    public function getTelFixe(): ?string
     {
         return $this->telFixe;
     }
@@ -190,7 +190,7 @@ class Intervenant
         return $this;
     }
 
-    public function getTelPortable(): ?int
+    public function getTelPortable(): ?string
     {
         return $this->telPortable;
     }
