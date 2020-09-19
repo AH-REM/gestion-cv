@@ -20,7 +20,7 @@ Il est requis d'avoir la version 7.1.3 ou supérieur de PHP.
 
 Ainsi qu'un environnement pour stocker l'application web et sa base de données, MySQL.
 
-Ensuite, veuillez télécharger le projet prêt pour la production ainsi que le script de la base de données.
+Ensuite, veuillez télécharger le [projet prêt pour la production](https://github.com/AH-REM/gestion-cv/releases/download/v1.0/gestion-cv.zip) ainsi que le [script de la base de données](https://github.com/AH-REM/gestion-cv/releases/download/v1.0/gestion-cv.sql).
 
 Dans le fichier `.env`, vous devrez modifier la ligne suivante avec les bonnes informations.
 ```
