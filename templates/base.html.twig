@@ -64,9 +64,9 @@
                     {% if route != 'security_login' %}
                         <span class="navbar-text p-0">
                             {% if is_granted('ROLE_USER') %}
-                                <a href="{{ path('security_logout') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Déconnexion</a>
+                                <a href="{{ path('security_logout') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Déconnection</a>
                             {% else %}
-                                <a href="{{ path('security_login') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Connexion</a>
+                                <a href="{{ path('security_login') }}" class="btn btn-outline-primary" role="button" aria-pressed="true">Connection</a>
                             {% endif %}
                         </span>
                     {% endif %}
